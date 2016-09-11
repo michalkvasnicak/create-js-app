@@ -75,3 +75,4 @@ Temporary Items
 .app.js
 ./src
 node_modules
+npm-debug.log
