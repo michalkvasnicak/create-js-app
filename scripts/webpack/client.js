@@ -1,6 +1,5 @@
 'use strict';
 
-const console = require('../console');
 const webpack = require('webpack');
 const clientConfigFactory = require('../config/webpack/client.config');
 
