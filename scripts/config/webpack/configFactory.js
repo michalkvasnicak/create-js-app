@@ -49,7 +49,7 @@ function webpackConfigFactory(options /*: Object */, args /*: Object */) /*: Obj
       __filename: true,
     },
     // Anything listed in externals will not be included in our bundle.
-    externals: removeEmpty([
+    externals: removeEmpty(
       // We don't want our node_modules to be bundled with our server package,
       // prefering them to be resolved via native node module system.  Therefore
       // we use the `webpack-node-externals` library to help us generate an
@@ -66,8 +66,8 @@ function webpackConfigFactory(options /*: Object */, args /*: Object */) /*: Obj
           /\.(mp4|mp3|ogg|swf|webp)$/,
           /\.(css|scss|sass|sss|less)$/,
         ],
-      })),
-    ]),
+      }))
+    ),
     devtool: ifElse(isServer || isDev)(
       // We want to be able to get nice stack traces when running our server
       // bundle.  To fully support this we'll also need to configure the
@@ -85,11 +85,11 @@ function webpackConfigFactory(options /*: Object */, args /*: Object */) /*: Obj
     // Define our entry chunks for our bundle.
     entry: merge(
       {
-        main: removeEmpty([
+        main: removeEmpty(
           ifDevClient('react-hot-loader/patch'),
           ifDevClient(`webpack-hot-middleware/client?reload=true&path=http://localhost:${CLIENT_DEVSERVER_PORT}/__webpack_hmr`),
-          path.resolve(appRootPath, `./src/${target}/index.js`),
-        ]),
+          path.resolve(appRootPath, `./src/${target}/index.js`)
+        ),
       }
     ),
     output: {
@@ -141,7 +141,7 @@ function webpackConfigFactory(options /*: Object */, args /*: Object */) /*: Obj
       ],
     },
     postcss: [autoprefixer],
-    plugins: removeEmpty([
+    plugins: removeEmpty(
       // We use this so that our generated [chunkhash]'s are only different if
       // the content for our respective chunks have changed.  This optimises
       // our long term browser caching strategy for our client bundle, avoiding
@@ -232,8 +232,8 @@ function webpackConfigFactory(options /*: Object */, args /*: Object */) /*: Obj
         // This is a production client so we will extract our CSS into
         // CSS files.
         new ExtractTextPlugin({ filename: '[name]-[chunkhash].css', allChunks: true })
-      ),
-    ]),
+      )
+    ),
     module: {
       preLoaders: [
         {

@@ -21,7 +21,7 @@ function createHotClient(compiler /*: Object */, eventEmitter /*: events$EventEm
   app.use(webpackDevMiddleware);
   app.use(createWebpackHotMiddleware(compiler, { log: false }));
 
-  const listener = app.listen(process.env.CLIENT_DEVSERVER_PORT);
+  const listener = app.listen(process.env.CLIENT_DEVSERVER_PORT || 7000);
 
   return {
     close() {

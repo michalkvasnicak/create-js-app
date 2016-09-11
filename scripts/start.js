@@ -35,7 +35,9 @@ function start(config /*: Object */, eventEmitter /*: Object */) /*: Object */ {
 }
 
 const configPath = path.resolve(currentDirectory, './.app.js');
-let config = {};
+let config = {
+  tasks: []
+};
 
 if (pathExists.sync(configPath)) {
   config = require(configPath);

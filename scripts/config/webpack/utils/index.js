@@ -1,7 +1,7 @@
 /* @flow */
 
-function removeEmpty(x /*: Array<any> */) /*: Array<any> */ {
-  return x.filter(y => !!y);
+function removeEmpty(...x /*: Array<any> */) /*: Array<any> */ {
+  return [...x].filter(y => !!y);
 }
 
 // :: bool -> (Any, Any) -> Any
