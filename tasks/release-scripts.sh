@@ -29,6 +29,8 @@ npm cache clear
 npm install
 npm dedupe
 
+rm -rf node_modules/fsevents
+
 node $root_path/node_modules/.bin/bundle-deps
 
 npm publish "$@"
