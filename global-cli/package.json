@@ -1,6 +1,6 @@
 {
   "name": "create-js-app",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "author": "Michal Kvasničák <michal.kvasnicak@gmail.com>",
   "license": "MIT",
   "keywords": [
@@ -19,7 +19,7 @@
     "index.js"
   ],
   "bin": {
-    "create-react-app": "./index.js"
+    "create-js-app": "./index.js"
   },
   "dependencies": {
     "chalk": "^1.1.3",
