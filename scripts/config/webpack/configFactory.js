@@ -30,8 +30,8 @@ function webpackConfigFactory(options /*: Object */, args /*: Object */) /*: Obj
   const ifProdClient = ifElse(isProd && isClient);
 
   const CLIENT_DEVSERVER_PORT = process.env.CLIENT_DEVSERVER_PORT || 7000;
-  const CLIENT_BUNDLE_OUTPUT_PATH = process.env.CLIENT_BUNDLE_OUTPUT_PATH || './build/server';
-  const SERVER_BUNDLE_OUTPUT_PATH = process.env.SERVER_BUNDLE_OUTPUT_PATH || './build/client';
+  const CLIENT_BUNDLE_OUTPUT_PATH = process.env.CLIENT_BUNDLE_OUTPUT_PATH || './build/client';
+  const SERVER_BUNDLE_OUTPUT_PATH = process.env.SERVER_BUNDLE_OUTPUT_PATH || './build/server';
   const CLIENT_BUNDLE_HTTP_PATH = process.env.CLIENT_BUNDLE_HTTP_PATH || '/client-assets/';
   const SERVER_PORT = process.env.SERVER_PORT || 3000;
   const DISABLE_SSR = process.env.DISABLE_SSR ? process.env.DISABLE_SSR : false;
