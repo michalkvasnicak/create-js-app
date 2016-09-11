@@ -73,5 +73,5 @@ Temporary Items
 
 .env
 .app.js
-src
+./src
 node_modules
