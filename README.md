@@ -63,3 +63,32 @@ module.exports = {
     ]
 };
 ```
+
+## Directory structure
+**There is not an init command at the time so you need to create this manually**
+
+```
+src
+    /client
+        /index.js
+    /server
+        /index.js
+```
+
+```js
+// example of server side javascript file
+// you can use any node.js http framework
+// but you have to export listener
+// so create-js-app can manage it
+//src/server/index.js
+
+import Koa from 'koa';
+
+const app = new Koa();
+
+// SERVER_PORT is provided by webpack build
+const listener = app.listen(SERVER_PORT);
+
+export default listener;
+
+```
