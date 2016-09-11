@@ -1,5 +1,7 @@
 # Create JS App
 
+**This project is under development, API can change in different ways. Any help is appreciated :) Feel free to open PR.**
+
 Create full stack javascript apps with no build configuration and one dependency.
 
 ## Installation
