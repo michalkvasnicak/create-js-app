@@ -1,9 +1,9 @@
-'use strict';
+/* @flow */
 
 const webpack = require('webpack');
 const serverConfigFactory = require('../config/webpack/server.config');
 
-module.exports = function serverCompiler(extendConfig, eventEmitter) {
+function serverCompiler(extendConfig /*: Object */, eventEmitter /*: events$EventEmitter */) /*: CompilerManager */ {
   const config = serverConfigFactory({ mode: 'development' }, extendConfig);
 
   const compiler = webpack(
@@ -35,4 +35,6 @@ module.exports = function serverCompiler(extendConfig, eventEmitter) {
       });
     }
   }
-};
+}
+
+module.exports = serverCompiler;

@@ -1,9 +1,9 @@
-'use strict';
+/* @flow */
 
 const openBrowser = require('../utils/openBrowser');
 const path = require('path');
 
-module.exports = function createHotServer(compiler, eventEmitter) {
+function createHotServer(compiler /*: Object */, eventEmitter /*: events$EventEmitter */) /*: ServerManager */ {
   const sockets = {
     id: 0,
     connections: {}
@@ -66,7 +66,7 @@ module.exports = function createHotServer(compiler, eventEmitter) {
             socket.on('close', () => delete sockets.connections[socketId]);
           });
 
-          const url = `http://localhost:${process.env.SERVER_PORT}`;
+          const url = `http://localhost:${process.env.SERVER_PORT || 3000}`;
 
           eventEmitter.emit('server-log-info', `Server is listening on ${url}`);
 
@@ -98,5 +98,6 @@ module.exports = function createHotServer(compiler, eventEmitter) {
       return Promise.resolve();
     }
   };
-};
+}
 
+module.exports = createHotServer;

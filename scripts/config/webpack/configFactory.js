@@ -1,3 +1,4 @@
+/* @flow */
 /* eslint-disable no-console,import/no-extraneous-dependencies */
 
 const autoprefixer = require('autoprefixer');
@@ -11,7 +12,10 @@ const { removeEmpty, ifElse, merge } = require('./utils');
 
 const appRootPath = process.cwd();
 
-function webpackConfigFactory({ target, mode }, { eslint = require.resolve('../../config/eslint/default') }) {
+function webpackConfigFactory(options /*: Object */, args /*: Object */) /*: Object */ {
+  const { target, mode } = options;
+  const { eslint = require.resolve('../../config/eslint/default') } = args;
+
   const isDev = mode === 'development';
   const isProd = mode === 'production';
   const isClient = target === 'client';
@@ -24,6 +28,15 @@ function webpackConfigFactory({ target, mode }, { eslint = require.resolve('../.
   const ifDevClient = ifElse(isDev && isClient);
   const ifDevServer = ifElse(isDev && isServer);
   const ifProdClient = ifElse(isProd && isClient);
+
+  const CLIENT_DEVSERVER_PORT = process.env.CLIENT_DEVSERVER_PORT || 7000;
+  const CLIENT_BUNDLE_OUTPUT_PATH = process.env.CLIENT_BUNDLE_OUTPUT_PATH || './build/server';
+  const SERVER_BUNDLE_OUTPUT_PATH = process.env.SERVER_BUNDLE_OUTPUT_PATH || './build/client';
+  const CLIENT_BUNDLE_HTTP_PATH = process.env.CLIENT_BUNDLE_HTTP_PATH || '/client-assets/';
+  const SERVER_PORT = process.env.SERVER_PORT || 3000;
+  const DISABLE_SSR = process.env.DISABLE_SSR ? process.env.DISABLE_SSR : false;
+  const CLIENT_BUNDLE_ASSETS_FILENAME = process.env.CLIENT_BUNDLE_ASSETS_FILENAME || 'assets.json';
+  const CLIENT_BUNDLE_CACHE_MAXAGE = process.env.CLIENT_BUNDLE_CACHE_MAXAGE || '365d';
 
   return {
     // We need to state that we are targetting "node" for our server bundle.
@@ -74,7 +87,7 @@ function webpackConfigFactory({ target, mode }, { eslint = require.resolve('../.
       {
         main: removeEmpty([
           ifDevClient('react-hot-loader/patch'),
-          ifDevClient(`webpack-hot-middleware/client?reload=true&path=http://localhost:${process.env.CLIENT_DEVSERVER_PORT}/__webpack_hmr`),
+          ifDevClient(`webpack-hot-middleware/client?reload=true&path=http://localhost:${CLIENT_DEVSERVER_PORT}/__webpack_hmr`),
           path.resolve(appRootPath, `./src/${target}/index.js`),
         ]),
       }
@@ -84,8 +97,8 @@ function webpackConfigFactory({ target, mode }, { eslint = require.resolve('../.
       path: path.resolve(
         appRootPath,
         isClient
-          ? process.env.CLIENT_BUNDLE_OUTPUT_PATH
-          : process.env.SERVER_BUNDLE_OUTPUT_PATH
+          ? CLIENT_BUNDLE_OUTPUT_PATH
+          : SERVER_BUNDLE_OUTPUT_PATH
       ),
       // The filename format for our bundle's entries.
       filename: ifProdClient(
@@ -106,9 +119,9 @@ function webpackConfigFactory({ target, mode }, { eslint = require.resolve('../.
       publicPath: ifDev(
         // As we run a seperate server for our client and server bundles we
         // need to use an absolute http path for our assets public path.
-        `http://localhost:${process.env.CLIENT_DEVSERVER_PORT}${process.env.CLIENT_BUNDLE_HTTP_PATH}`,
+        `http://localhost:${CLIENT_DEVSERVER_PORT}${CLIENT_BUNDLE_HTTP_PATH}`,
         // Otherwise we expect our bundled output to be served from this path.
-        process.env.CLIENT_BUNDLE_HTTP_PATH
+        CLIENT_BUNDLE_HTTP_PATH
       ),
       // When in server mode we will output our bundle as a commonjs2 module.
       libraryTarget: ifServer('commonjs2', 'var'),
@@ -124,7 +137,7 @@ function webpackConfigFactory({ target, mode }, { eslint = require.resolve('../.
       ],
       modulesDirectories: [
         'node_modules',
-        path.resolve(__dirname, '../../../../node_mddules'),
+        path.resolve(__dirname, '../../../../node_modules'),
       ],
     },
     postcss: [autoprefixer],
@@ -152,14 +165,14 @@ function webpackConfigFactory({ target, mode }, { eslint = require.resolve('../.
           IS_SERVER: JSON.stringify(isServer),
           // All the below items match the config items in our .env file. Go
           // to the .env_example for a description of each key.
-          SERVER_PORT: JSON.stringify(process.env.SERVER_PORT),
-          CLIENT_DEVSERVER_PORT: JSON.stringify(process.env.CLIENT_DEVSERVER_PORT),
-          DISABLE_SSR: JSON.stringify(process.env.DISABLE_SSR),
-          SERVER_BUNDLE_OUTPUT_PATH: JSON.stringify(process.env.SERVER_BUNDLE_OUTPUT_PATH),
-          CLIENT_BUNDLE_OUTPUT_PATH: JSON.stringify(process.env.CLIENT_BUNDLE_OUTPUT_PATH),
-          CLIENT_BUNDLE_ASSETS_FILENAME: JSON.stringify(process.env.CLIENT_BUNDLE_ASSETS_FILENAME),
-          CLIENT_BUNDLE_HTTP_PATH: JSON.stringify(process.env.CLIENT_BUNDLE_HTTP_PATH),
-          CLIENT_BUNDLE_CACHE_MAXAGE: JSON.stringify(process.env.CLIENT_BUNDLE_CACHE_MAXAGE),
+          SERVER_PORT: JSON.stringify(SERVER_PORT),
+          CLIENT_DEVSERVER_PORT: JSON.stringify(CLIENT_DEVSERVER_PORT),
+          DISABLE_SSR: JSON.stringify(DISABLE_SSR),
+          SERVER_BUNDLE_OUTPUT_PATH: JSON.stringify(SERVER_BUNDLE_OUTPUT_PATH),
+          CLIENT_BUNDLE_OUTPUT_PATH: JSON.stringify(CLIENT_BUNDLE_OUTPUT_PATH),
+          CLIENT_BUNDLE_ASSETS_FILENAME: JSON.stringify(CLIENT_BUNDLE_ASSETS_FILENAME),
+          CLIENT_BUNDLE_HTTP_PATH: JSON.stringify(CLIENT_BUNDLE_HTTP_PATH),
+          CLIENT_BUNDLE_CACHE_MAXAGE: JSON.stringify(CLIENT_BUNDLE_CACHE_MAXAGE),
         },
       }),
 
@@ -169,8 +182,8 @@ function webpackConfigFactory({ target, mode }, { eslint = require.resolve('../.
         // as we need to interogate these files in order to know what JS/CSS
         // we need to inject into our HTML.
         new AssetsPlugin({
-          filename: process.env.CLIENT_BUNDLE_ASSETS_FILENAME,
-          path: path.resolve(appRootPath, process.env.CLIENT_BUNDLE_OUTPUT_PATH),
+          filename: CLIENT_BUNDLE_ASSETS_FILENAME,
+          path: path.resolve(appRootPath, CLIENT_BUNDLE_OUTPUT_PATH),
         })
       ),
 
@@ -240,8 +253,8 @@ function webpackConfigFactory({ target, mode }, { eslint = require.resolve('../.
           loader: 'babel',
           exclude: [
             /node_modules/,
-            path.resolve(appRootPath, process.env.CLIENT_BUNDLE_OUTPUT_PATH),
-            path.resolve(appRootPath, process.env.SERVER_BUNDLE_OUTPUT_PATH),
+            path.resolve(appRootPath, CLIENT_BUNDLE_OUTPUT_PATH),
+            path.resolve(appRootPath, SERVER_BUNDLE_OUTPUT_PATH),
           ],
           query: merge(
             {

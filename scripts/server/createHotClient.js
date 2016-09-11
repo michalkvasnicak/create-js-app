@@ -1,12 +1,12 @@
-'use strict';
+/* @flow */
 
 const express = require('express');
-const createWebpackMiddlware = require('webpack-dev-middleware');
+const createWebpackMiddleware = require('webpack-dev-middleware');
 const createWebpackHotMiddleware = require('webpack-hot-middleware');
 
-module.exports = function createHotClient(compiler) {
+function createHotClient(compiler /*: Object */, eventEmitter /*: events$EventEmitter */) /*: ServerManager */ {
   const app = express();
-  const webpackDevMiddleware = createWebpackMiddlware(compiler, {
+  const webpackDevMiddleware = createWebpackMiddleware(compiler, {
     quiet: true,
     noInfo: true,
     headers: {
@@ -32,5 +32,6 @@ module.exports = function createHotClient(compiler) {
       });
     }
   };
-};
+}
 
+module.exports = createHotClient;

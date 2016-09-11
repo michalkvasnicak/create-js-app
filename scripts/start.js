@@ -1,5 +1,4 @@
 /* @flow */
-'use strict';
 
 const dotenv = require('dotenv');
 const path = require('path');
@@ -7,17 +6,17 @@ const pathExists = require('path-exists');
 
 const renderDashboard = require('./dashboard');
 const currentDirectory /*: string */ = process.cwd();
-const webpackServerCompiler /*: Function */ = require('./webpack/server');
-const webpackClientCompiler /*: Function */ = require('./webpack/client');
-const createHotClient /*: Object */ = require('./server/createHotClient');
-const createHotServer /*: Object */ = require('./server/createHotServer');
+const webpackServerCompiler = require('./webpack/server');
+const webpackClientCompiler = require('./webpack/client');
+const createHotClient = require('./server/createHotClient');
+const createHotServer = require('./server/createHotServer');
 const EventEmitter = require('events');
 
-const dashboardEventEmitter = new EventEmitter;
+const dashboardEventEmitter /*: events$EventEmitter */ = new EventEmitter;
 
 dotenv.config({ silent: true });
 
-function start(config, eventEmitter) {
+function start(config /*: Object */, eventEmitter /*: Object */) /*: Object */ {
   const clientCompiler = webpackClientCompiler(config, eventEmitter);
   const serverCompiler = webpackServerCompiler(config, eventEmitter);
   const clientManager = createHotClient(clientCompiler.compiler, eventEmitter);

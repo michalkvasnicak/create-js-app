@@ -1,21 +1,18 @@
-// :: [Any] -> [Any]
-function removeEmpty(x) {
+/* @flow */
+
+function removeEmpty(x /*: Array<any> */) /*: Array<any> */ {
   return x.filter(y => !!y);
 }
 
 // :: bool -> (Any, Any) -> Any
-function ifElse(condition) {
+function ifElse(condition /*: boolean*/) /*: (then: any, or: any) => any */ {
   return (then, or) => (condition ? then : or);
 }
 
-// :: ...Object -> Object
-function merge() {
-  const funcArgs = Array.prototype.slice.call(arguments); // eslint-disable-line prefer-rest-params
+function merge(...funcArgs /*: Array<any> */) /*: Object */ {
+  const args = removeEmpty(...funcArgs);
 
-  return Object.assign.apply(
-    null,
-    removeEmpty([{}].concat(funcArgs))
-  );
+  return Object.assign({}, ...args);
 }
 
 module.exports = {
