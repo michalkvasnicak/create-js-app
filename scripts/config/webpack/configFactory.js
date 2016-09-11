@@ -86,8 +86,8 @@ function webpackConfigFactory(options /*: Object */, args /*: Object */) /*: Obj
     entry: merge(
       {
         main: removeEmpty(
-          ifDevClient('react-hot-loader/patch'),
-          ifDevClient(`webpack-hot-middleware/client?reload=true&path=http://localhost:${CLIENT_DEVSERVER_PORT}/__webpack_hmr`),
+          ifDevClient(require.resolve('react-hot-loader/patch')),
+          ifDevClient(`${require.resolve('webpack-hot-middleware/client')}?reload=true&path=http://localhost:${CLIENT_DEVSERVER_PORT}/__webpack_hmr`),
           path.resolve(appRootPath, `./src/${target}/index.js`)
         ),
       }
@@ -138,6 +138,7 @@ function webpackConfigFactory(options /*: Object */, args /*: Object */) /*: Obj
       modulesDirectories: [
         'node_modules',
         path.resolve(__dirname, '../../../../node_modules'),
+        path.resolve(__dirname, '../../../../../node_modules'),
       ],
     },
     postcss: [autoprefixer],
@@ -238,7 +239,7 @@ function webpackConfigFactory(options /*: Object */, args /*: Object */) /*: Obj
       preLoaders: [
         {
           test: /\.jsx?$/,
-          loader: 'eslint',
+          loader: require.resolve('eslint-loader'),
           exclude: /node_modules/,
           query: {
             baseConfig: false,
@@ -250,7 +251,7 @@ function webpackConfigFactory(options /*: Object */, args /*: Object */) /*: Obj
         // Javascript
         {
           test: /\.jsx?$/,
-          loader: 'babel',
+          loader: require.resolve('babel-loader'),
           exclude: [
             /node_modules/,
             path.resolve(appRootPath, CLIENT_BUNDLE_OUTPUT_PATH),
@@ -260,7 +261,7 @@ function webpackConfigFactory(options /*: Object */, args /*: Object */) /*: Obj
             {
               env: {
                 development: {
-                  plugins: ['react-hot-loader/babel'],
+                  plugins: [require.resolve('react-hot-loader/babel')],
                 },
               },
             },
@@ -269,12 +270,12 @@ function webpackConfigFactory(options /*: Object */, args /*: Object */) /*: Obj
               // all of the ES2015 syntax, therefore we only transpile JSX.
               presets: [
                 [
-                  'latest-node6',
+                  require.resolve('babel-preset-latest-node6'),
                   {
                     'object-rest': true
                   }
                 ],
-                'react',
+                require.resolve('babel-preset-react'),
               ],
             }),
             ifClient({
@@ -282,10 +283,10 @@ function webpackConfigFactory(options /*: Object */, args /*: Object */) /*: Obj
               // ES5 code for wider browser/device compatability.
               presets: [
                 // JSX
-                'react',
+                require.resolve('babel-preset-react'),
                 // Webpack 2 includes support for es2015 imports, therefore we
                 // disable the modules processing.
-                ['latest', { es2015: { modules: false } }],
+                [require.resolve('babel-preset-latest'), { es2015: { modules: false } }],
               ],
             })
           ),
@@ -294,13 +295,13 @@ function webpackConfigFactory(options /*: Object */, args /*: Object */) /*: Obj
         // JSON
         {
           test: /\.json$/,
-          loader: 'json-loader',
+          loader: require.resolve('json-loader'),
         },
 
         // Images and Fonts
         {
           test: /\.(jpg|jpeg|png|gif|ico|eot|svg|ttf|woff|woff2|otf)$/,
-          loader: 'url-loader',
+          loader: require.resolve('url-loader'),
           query: {
             // Any file with a byte smaller than this will be "inlined" via
             // a base64 representation.
@@ -319,8 +320,8 @@ function webpackConfigFactory(options /*: Object */, args /*: Object */) /*: Obj
           // css loader.
           ifServer({
             loaders: [
-              'css-loader/locals?modules',
-              'postcss-loader',
+              `${require.resolve('css-loader/locals')}?modules`,
+              require.resolve('postcss-loader'),
             ],
           }),
           // For a production client build we use the ExtractTextPlugin which
@@ -328,8 +329,8 @@ function webpackConfigFactory(options /*: Object */, args /*: Object */) /*: Obj
           // registered within the plugins section too.
           ifProdClient({
             loader: ExtractTextPlugin.extract({
-              notExtractLoader: 'style-loader',
-              loader: ['css-loader?modules', 'postcss-loader'],
+              notExtractLoader: require.resolve('style-loader'),
+              loader: [`${require.resolve('css-loader')}?modules`, require.resolve('postcss-loader')],
             }),
           }),
           // For a development client we will use a straight style & css loader
@@ -337,9 +338,9 @@ function webpackConfigFactory(options /*: Object */, args /*: Object */) /*: Obj
           // experience.
           ifDevClient({
             loaders: [
-              'style-loader',
-              { loader: 'css-loader', query: { modules: true, sourceMap: true } },
-              'postcss-loader',
+              require.resolve('style-loader'),
+              { loader: require.resolve('css-loader'), query: { modules: true, sourceMap: true } },
+              require.resolve('postcss-loader'),
             ],
           })
         ),
