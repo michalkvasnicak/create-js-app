@@ -58,6 +58,18 @@ function createHotServer(compiler /*: Object */, eventEmitter /*: events$EventEm
 
           runningServer = require(compiledOutputPath).default;
 
+          if (!runningServer) {
+            eventEmitter.emit(
+              'server-log-error',
+              'Server bundle did not export a listener. Please export listener using `export default` syntax'
+            );
+          } else if (typeof runningServer.on !== 'function') {
+            eventEmitter.emit(
+              'server-log-error',
+              'Cannot attach connection handler to listener because it is missing an `on` method'
+            );
+          }
+
           // listen to all connections, we need this to close server
           runningServer.on('connection', socket => {
             const socketId = sockets.id++;
