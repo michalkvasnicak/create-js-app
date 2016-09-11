@@ -264,6 +264,7 @@ function webpackConfigFactory(options /*: Object */, args /*: Object */) /*: Obj
                   plugins: [require.resolve('react-hot-loader/babel')],
                 },
               },
+              plugins: [require.resolve('babel-plugin-transform-object-rest-spread')],
             },
             ifServer({
               // We are running a node 6 server which has support for almost

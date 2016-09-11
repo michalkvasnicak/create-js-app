@@ -1,6 +1,6 @@
 {
   "name": "create-js-app-scripts",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "Configuration and scripts for Create Js App.",
   "repository": "michalkvasnicak/create-js-app",
   "license": "MIT",
@@ -25,6 +25,7 @@
     "babel-core": "6.14.0",
     "babel-eslint": "6.1.2",
     "babel-loader": "6.2.5",
+    "babel-plugin-transform-object-rest-spread": "6.8.0",
     "babel-plugin-transform-class-properties": "6.11.5",
     "babel-preset-latest-node6": "0.1.0",
     "babel-preset-latest": "6.14.0",
