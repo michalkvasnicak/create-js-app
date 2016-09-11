@@ -1,0 +1,17 @@
+const chokidar = require('chokidar');
+const path = require('path');
+
+module.exports = {
+  eslint: './scripts/config/eslint/airbnb.js',
+  tasks: [
+    (eventEmitter) => {
+      const watcher = chokidar.watch(path.resolve(__dirname, './.app.js'));
+
+      watcher.on('ready', () => {
+        watcher.on('add', () => eventEmitter.emit('task-log-info', 'Added config'));
+        watcher.on('change', () => eventEmitter.emit('task-log-info', 'Changed config'));
+        watcher.on('unlink', () => eventEmitter.emit('task-log-info', 'Deleted config'));
+      });
+    }
+  ]
+};
