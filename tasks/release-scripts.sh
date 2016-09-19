@@ -3,6 +3,9 @@
 # go to global-cli
 cd "$(dirname "$0")/../"
 
+# bump version
+npm version "$@" -m "Release %s version"
+
 root_path=$PWD
 
 set -e
@@ -33,7 +36,7 @@ rm -rf node_modules/fsevents
 
 node $root_path/node_modules/.bin/bundle-deps
 
-npm publish "$@"
+npm publish
 
 cd ..
 rm -rf $clean_path
