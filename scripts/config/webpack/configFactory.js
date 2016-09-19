@@ -257,56 +257,9 @@ function webpackConfigFactory(options /*: Object */, args /*: Object */) /*: Obj
             path.resolve(appRootPath, CLIENT_BUNDLE_OUTPUT_PATH),
             path.resolve(appRootPath, SERVER_BUNDLE_OUTPUT_PATH),
           ],
-          query: merge(
-            {
-              env: {
-                development: {
-                  plugins: [require.resolve('react-hot-loader/babel')],
-                },
-              },
-              plugins: [
-                require.resolve('babel-plugin-transform-class-properties'),
-                require.resolve('babel-plugin-transform-object-rest-spread')
-              ],
-            },
-            ifServer({
-              // We are running a node 6 server which has support for almost
-              // all of the ES2015 syntax, therefore we only transpile JSX.
-              presets: [
-                [
-                  require.resolve('babel-preset-latest-node6'),
-                  {
-                    'object-rest': true
-                  }
-                ],
-                require.resolve('babel-preset-react'),
-              ],
-            }),
-            ifClient({
-              // For our clients code we will need to transpile our JS into
-              // ES5 code for wider browser/device compatability.
-              presets: [
-                // JSX
-                require.resolve('babel-preset-react'),
-                // Webpack 2 includes support for es2015 imports, therefore we
-                // disable the modules processing.
-                [require.resolve('babel-preset-latest'), { es2015: { modules: false } }],
-              ],
-              plugins: [
-                [require.resolve('babel-plugin-transform-regenerator'), {
-                  // Async functions are converted to generators by babel-preset-latest
-                  async: false,
-                }],
-                [require.resolve('babel-plugin-transform-runtime'), {
-                  helpers: false,
-                  polyfill: false,
-                  regenerator: true,
-                  // Resolve the Babel runtime relative to the config.
-                  // You can safely remove this after ejecting:
-                  moduleName: path.dirname(require.resolve('babel-runtime/package'))
-                }],
-              ],
-            })
+          query: ifElse(isServer)(
+            require('../babel/config.server'),
+            require('../babel/config.client')
           ),
         },
 
