@@ -5,6 +5,7 @@ const autoprefixer = require('autoprefixer');
 const path = require('path');
 const webpack = require('webpack');
 const AssetsPlugin = require('assets-webpack-plugin');
+const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin');
 const nodeExternals = require('webpack-node-externals');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const FlowStatusWebpackPlugin = require('flow-status-webpack-plugin');
@@ -144,6 +145,7 @@ function webpackConfigFactory(options /*: Object */, args /*: Object */) /*: Obj
     },
     postcss: [autoprefixer],
     plugins: removeEmpty(
+      new CaseSensitivePathsPlugin(),
       // We use this so that our generated [chunkhash]'s are only different if
       // the content for our respective chunks have changed.  This optimises
       // our long term browser caching strategy for our client bundle, avoiding
