@@ -23,6 +23,7 @@ module.exports = {
   rules: {
     'generator-star-spacing': 'off',
     'import/*': 'off',
+    'react/jsx-filename-extension': 'off',
     'react/require-extension': 'off',
     'flowtype/define-flow-type': 'warn',
     'flowtype/require-valid-file-annotation': 'warn',
