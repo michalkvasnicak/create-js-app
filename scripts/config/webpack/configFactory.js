@@ -264,7 +264,10 @@ function webpackConfigFactory(options /*: Object */, args /*: Object */) /*: Obj
                   plugins: [require.resolve('react-hot-loader/babel')],
                 },
               },
-              plugins: [require.resolve('babel-plugin-transform-object-rest-spread')],
+              plugins: [
+                require.resolve('babel-plugin-transform-class-properties'),
+                require.resolve('babel-plugin-transform-object-rest-spread')
+              ],
             },
             ifServer({
               // We are running a node 6 server which has support for almost
@@ -289,7 +292,25 @@ function webpackConfigFactory(options /*: Object */, args /*: Object */) /*: Obj
                 // disable the modules processing.
                 [require.resolve('babel-preset-latest'), { es2015: { modules: false } }],
               ],
-            })
+              plugins: [
+                {
+                  plugins: [
+                    [require.resolve('babel-plugin-transform-regenerator'), {
+                      // Async functions are converted to generators by babel-preset-latest
+                      async: false
+                    }],
+                  ]
+                },
+                [require.resolve('babel-plugin-transform-runtime'), {
+                  helpers: false,
+                  polyfill: false,
+                  regenerator: true,
+                  // Resolve the Babel runtime relative to the config.
+                  // You can safely remove this after ejecting:
+                  moduleName: path.dirname(require.resolve('babel-runtime/package'))
+                }],
+              ],
+            }),
           ),
         },
 
