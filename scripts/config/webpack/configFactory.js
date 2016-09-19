@@ -306,7 +306,7 @@ function webpackConfigFactory(options /*: Object */, args /*: Object */) /*: Obj
                   moduleName: path.dirname(require.resolve('babel-runtime/package'))
                 }],
               ],
-            }),
+            })
           ),
         },
 
