@@ -7,6 +7,7 @@ const webpack = require('webpack');
 const AssetsPlugin = require('assets-webpack-plugin');
 const nodeExternals = require('webpack-node-externals');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const FlowStatusWebpackPlugin = require('flow-status-webpack-plugin');
 const WebpackMd5Hash = require('webpack-md5-hash');
 const { removeEmpty, ifElse, merge } = require('./utils');
 
@@ -187,6 +188,10 @@ function webpackConfigFactory(options /*: Object */, args /*: Object */) /*: Obj
           path: path.resolve(appRootPath, CLIENT_BUNDLE_OUTPUT_PATH),
         })
       ),
+
+      ifDev(new FlowStatusWebpackPlugin({
+        failOnError: true,
+      })),
 
       // We don't want webpack errors to occur during development as it will
       // kill our dev servers.
