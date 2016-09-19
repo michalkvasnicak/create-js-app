@@ -295,7 +295,7 @@ function webpackConfigFactory(options /*: Object */, args /*: Object */) /*: Obj
               plugins: [
                 [require.resolve('babel-plugin-transform-regenerator'), {
                   // Async functions are converted to generators by babel-preset-latest
-                  async: false
+                  async: false,
                 }],
                 [require.resolve('babel-plugin-transform-runtime'), {
                   helpers: false,
