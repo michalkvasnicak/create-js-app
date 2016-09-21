@@ -40,6 +40,9 @@ npm run build
 module.exports = {
     // default is create-js-app-scripts/scripts/config/eslint/default.js
     eslint: 'create-js-app-scripts/scripts/config/eslint/airbnb.js',
+    eslintEnabled: true,
+    flowEnabled: true,
+    sourceMapsInDevelopment: true,
 
     // tasks you want to run during development
     // it will terminate them when you terminate development script

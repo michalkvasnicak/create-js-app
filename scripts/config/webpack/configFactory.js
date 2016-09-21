@@ -16,7 +16,12 @@ const appRootPath = process.cwd();
 
 function webpackConfigFactory(options /*: Object */, args /*: Object */) /*: Object */ {
   const { target, mode } = options;
-  const { eslint = require.resolve('../../config/eslint/default') } = args;
+  const {
+    eslint = require.resolve('../../config/eslint/default'),
+    eslintEnabled = true,
+    flowEnabled = true,
+    sourceMapsInDevelopment = true,
+  } = args;
 
   const isDev = mode === 'development';
   const isProd = mode === 'production';
@@ -30,6 +35,9 @@ function webpackConfigFactory(options /*: Object */, args /*: Object */) /*: Obj
   const ifDevClient = ifElse(isDev && isClient);
   const ifDevServer = ifElse(isDev && isServer);
   const ifProdClient = ifElse(isProd && isClient);
+  const ifFlowEnabled = ifElse(!!flowEnabled);
+  const ifEslintEnabled = ifElse(!!eslintEnabled);
+  const ifSourceMapsInDev = ifElse(!!sourceMapsInDevelopment);
 
   const CLIENT_DEVSERVER_PORT = process.env.CLIENT_DEVSERVER_PORT || 7000;
   const CLIENT_BUNDLE_OUTPUT_PATH = process.env.CLIENT_BUNDLE_OUTPUT_PATH || './build/client';
@@ -71,17 +79,7 @@ function webpackConfigFactory(options /*: Object */, args /*: Object */) /*: Obj
       }))
     ),
     devtool: ifElse(isServer || isDev)(
-      // We want to be able to get nice stack traces when running our server
-      // bundle.  To fully support this we'll also need to configure the
-      // `node-source-map-support` module to execute at the start of the server
-      // bundle.  This module will allow the node to make use of the
-      // source maps.
-      // We also want to be able to link to the source in chrome dev tools
-      // whilst we are in development mode. :)
-      'source-map',
-      // When in production client mode we don't want any source maps to
-      // decrease our payload sizes.
-      // This form has almost no cost.
+      ifSourceMapsInDev('source-map', 'eval'),
       'hidden-source-map'
     ),
     // Define our entry chunks for our bundle.
@@ -153,13 +151,6 @@ function webpackConfigFactory(options /*: Object */, args /*: Object */) /*: Obj
       // even though 1 or 2 may have only changed.
       ifClient(new WebpackMd5Hash()),
 
-      // Each key passed into DefinePlugin is an identifier.
-      // The values for each key will be inlined into the code replacing any
-      // instances of the keys that are found.
-      // If the value is a string it will be used as a code fragment.
-      // If the value isn’t a string, it will be stringified (including functions).
-      // If the value is an object all keys are removeEmpty the same way.
-      // If you prefix typeof to the key, it’s only removeEmpty for typeof calls.
       new webpack.DefinePlugin({
         'process.env': {
           // NOTE: The NODE_ENV key is especially important for production
@@ -181,19 +172,19 @@ function webpackConfigFactory(options /*: Object */, args /*: Object */) /*: Obj
       }),
 
       ifClient(
-        // Generates a JSON file containing a map of all the output files for
-        // our webpack bundle.  A necessisty for our server rendering process
-        // as we need to interogate these files in order to know what JS/CSS
-        // we need to inject into our HTML.
         new AssetsPlugin({
           filename: CLIENT_BUNDLE_ASSETS_FILENAME,
           path: path.resolve(appRootPath, CLIENT_BUNDLE_OUTPUT_PATH),
         })
       ),
 
-      ifDev(new FlowStatusWebpackPlugin({
-        failOnError: true,
-      })),
+      ifDev(
+        ifFlowEnabled(
+          new FlowStatusWebpackPlugin({
+            failOnError: true,
+          })
+        )
+      ),
 
       // We don't want webpack errors to occur during development as it will
       // kill our dev servers.
@@ -243,8 +234,8 @@ function webpackConfigFactory(options /*: Object */, args /*: Object */) /*: Obj
       )
     ),
     module: {
-      preLoaders: [
-        {
+      preLoaders: removeEmpty(
+        ifEslintEnabled({
           test: /\.jsx?$/,
           loader: require.resolve('eslint-loader'),
           exclude: /node_modules/,
@@ -252,8 +243,8 @@ function webpackConfigFactory(options /*: Object */, args /*: Object */) /*: Obj
             baseConfig: false,
             configFile: eslint
           }
-        }
-      ],
+        })
+      ),
       loaders: [
         // Javascript
         {
