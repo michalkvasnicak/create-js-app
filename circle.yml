@@ -8,3 +8,4 @@ test:
   override:
     - npm run lint
     - npm run flow
+    - node_modules/.bin/lerna run test
