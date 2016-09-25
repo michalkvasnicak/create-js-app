@@ -10,9 +10,11 @@
     "eslint-plugin-flowtype-errors": "1.1.0",
     "eslint-plugin-jsx-a11y": "2.2.2",
     "eslint-plugin-react": "6.3.0",
+    "flow-bin": "0.32.0",
     "lerna": "2.0.0-beta.28"
   },
   "scripts": {
-    "lint": "node ./node_modules/.bin/eslint packages"
+    "lint": "node ./node_modules/.bin/eslint packages",
+    "flow": "node ./node_modules/.bin/flow"
   }
 }
