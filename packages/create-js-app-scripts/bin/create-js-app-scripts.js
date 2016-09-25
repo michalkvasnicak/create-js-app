@@ -1,14 +1,13 @@
 #!/usr/bin/env node
+/* eslint-disable no-console */
 const chalk = require('chalk');
 const spawn = require('cross-spawn');
 const script = process.argv[2];
 const args = process.argv.slice(3);
 
 switch (script) {
-  // case 'build':
-  // case 'eject':
+  case 'build':
   case 'start': {
-    // case 'test':
     const result = spawn.sync(
       'node',
       [require.resolve(`../build/${script}`)].concat(args),
