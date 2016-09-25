@@ -1,0 +1,36 @@
+{
+  "name": "create-js-app-scripts",
+  "version": "0.6.0",
+  "description": "Configuration and scripts for Create JS App",
+  "license": "MIT",
+  "author": "Michal Kvasničák (https://twitter.com/@michalkvasnicak)",
+  "repository": "michalkvasnicak/create-js-app",
+  "bugs": {
+    "url": "https://github.com/michalkvasnicak/create-js-app/issues"
+  },
+  "engines": {
+    "node": ">=6.0"
+  },
+  "engineStrict": true,
+  "bin": {
+    "create-js-app-scripts": "bin/create-js-app-scripts.js"
+  },
+  "files": [
+    "bin",
+    "build"
+  ],
+  "dependencies": {
+    "eslint-config-js-app": "^0.0.1",
+    "chalk": "1.1.3",
+    "cross-spawn": "4.0.2"
+  },
+  "devDependencies": {
+    "babel-cli": "6.14.0",
+    "babel-preset-latest-minimal": "1.1.1",
+    "rimraf": "2.5.4"
+  },
+  "scripts": {
+    "build": "babel src -d build",
+    "prepublish": "rimraf build && npm run build"
+  }
+}
