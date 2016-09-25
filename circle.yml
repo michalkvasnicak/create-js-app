@@ -1,0 +1,10 @@
+machine:
+  node:
+    version: 6.1.0
+
+test:
+  pre:
+    - node_modules/.bin/lerna bootstrap
+  override:
+    - npm run lint
+    - npm run flow
