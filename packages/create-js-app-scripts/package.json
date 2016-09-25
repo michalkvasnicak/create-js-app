@@ -22,15 +22,47 @@
   "dependencies": {
     "eslint-config-js-app": "^0.0.1",
     "chalk": "1.1.3",
+    "chokidar": "1.6.0",
     "cross-spawn": "4.0.2"
   },
   "devDependencies": {
+    "ava": "^0.16.0",
     "babel-cli": "6.14.0",
+    "babel-plugin-transform-flow-strip-types": "6.14.0",
+    "babel-plugin-transform-object-rest-spread": "6.8.0",
     "babel-preset-latest-minimal": "1.1.1",
+    "babel-register": "6.14.0",
     "rimraf": "2.5.4"
   },
+  "optionalDependencies": {
+    "fsevents": "^1.0.14"
+  },
   "scripts": {
-    "build": "babel src -d build",
-    "prepublish": "rimraf build && npm run build"
+    "build": "rimraf build && babel src -d build --ignore '**/__tests__/**'",
+    "prepublish": "npm run build",
+    "test": "ava"
+  },
+  "ava": {
+    "files": [
+      "src/**/__tests__/*.js"
+    ],
+    "source": [
+      "src/**/*.js"
+    ],
+    "concurrency": 5,
+    "failFast": true,
+    "tap": true,
+    "powerAssert": false,
+    "require": [
+      "babel-register"
+    ],
+    "babel": "inherit"
+  },
+  "babel": {
+    "presets": ["latest-minimal"],
+    "plugins": [
+      "transform-flow-strip-types",
+      "transform-object-rest-spread"
+    ]
   }
 }
