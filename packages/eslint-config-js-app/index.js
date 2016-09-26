@@ -20,8 +20,14 @@ const airbnbConfig = Object.assign(
     },
     plugins: ['flowtype', 'flowtype-errors'],
     // disable import rules temporarily
-    rules: importPluginRules.reduce(
-      (rules, rule) => Object.assign({}, rules, { [`import/${rule}`]: 'off' }), {}
+    rules: Object.assign(
+      {},
+      importPluginRules.reduce(
+        (rules, rule) => Object.assign({}, rules, { [`import/${rule}`]: 'off' }), {}
+      ),
+      {
+        'flowtype-errors/show-errors': 'error',
+      }
     ),
     settings: {
       flowtype: {
