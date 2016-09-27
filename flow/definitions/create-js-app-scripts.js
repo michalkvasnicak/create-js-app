@@ -1,7 +1,14 @@
 /* @flow */
 
+declare type ConfigurationEnvironment = Object
+declare type ConfigurationSettings = Object & {
+  appNodeModulesDir: string
+}
+
 declare type Configuration = {
-  plugins: Array<Plugin>
+  env: ConfigurationEnvironment,
+  plugins: Array<Plugin>,
+  settings: ConfigurationSettings
 }
 
 declare interface Environment {
@@ -11,6 +18,7 @@ declare interface Environment {
 
   constructor(cwd: string, configFilePath: string): void;
   configFilePath(): string;
+  getConfiguration(): Configuration;
   start(): void;
   build(): Promise<any>;
   restart(): Promise<any>;
