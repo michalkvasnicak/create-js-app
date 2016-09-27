@@ -11,6 +11,7 @@ const airbnbConfig = Object.assign(
       jest: true,
       node: true,
     },
+    parser: 'babel-eslint',
     parserOptions: {
       sourceType: 'module',
       ecmaFeatures: {
