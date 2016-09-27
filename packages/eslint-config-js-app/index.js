@@ -28,6 +28,7 @@ const airbnbConfig = Object.assign(
       ),
       {
         'flowtype-errors/show-errors': 'error',
+        'react/jsx-filename-extension': 'off',
       }
     ),
     settings: {
