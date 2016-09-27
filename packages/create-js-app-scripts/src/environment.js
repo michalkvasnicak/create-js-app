@@ -16,6 +16,10 @@ class Environment {
     return path.resolve(`${this.cwd}, ${this.configFileName}`);
   }
 
+  getConfiguration(): Configuration {
+    return loadConfiguration(this);
+  }
+
   async build(): Promise<any> {
     const config: Configuration = loadConfiguration(this);
 
