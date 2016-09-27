@@ -1,9 +1,15 @@
 /* @flow */
 
+const path = require('path');
+
 const defaultConfig = {
+  env: {},
   plugins: [
     require('../plugins/watchConfiguration'), // eslint-disable-line global-require
   ],
+  settings: {
+    appNodeModulesDir: path.resolve(process.cwd(), './node_modules'),
+  },
 };
 
 module.exports = function loadConfiguration(env: Environment): Configuration {
@@ -15,9 +21,18 @@ module.exports = function loadConfiguration(env: Environment): Configuration {
     const config = require(configModulePath); // eslint-disable-line global-require
 
     return {
-      ...defaultConfig,
-      ...config,
-      plugins: [].concat(defaultConfig.plugins, config.plugins || []),
+      env: {
+        ...defaultConfig.env,
+        ...(config.env || {}),
+      },
+      plugins: [
+        ...defaultConfig.plugins,
+        ...(config.plugins || []),
+      ],
+      settings: {
+        ...defaultConfig.settings,
+        ...config.settings,
+      },
     };
   } catch (e) {
     return defaultConfig;
