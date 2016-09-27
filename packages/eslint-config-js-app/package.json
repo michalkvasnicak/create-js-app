@@ -1,6 +1,6 @@
 {
   "name": "eslint-config-js-app",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Eslint config used by Create JS App",
   "license": "MIT",
   "author": "Michal Kvasničák (https://twitter.com/@michalkvasnicak)",
