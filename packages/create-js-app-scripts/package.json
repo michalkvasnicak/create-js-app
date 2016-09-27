@@ -1,6 +1,6 @@
 {
   "name": "create-js-app-scripts",
-  "version": "0.7.1",
+  "version": "0.7.2",
   "description": "Configuration and scripts for Create JS App",
   "license": "MIT",
   "author": "Michal Kvasničák (https://twitter.com/@michalkvasnicak)",
@@ -20,7 +20,6 @@
     "build"
   ],
   "dependencies": {
-    "eslint-config-js-app": "^0.1.1",
     "chalk": "1.1.3",
     "chokidar": "1.6.0",
     "cross-spawn": "4.0.2"
