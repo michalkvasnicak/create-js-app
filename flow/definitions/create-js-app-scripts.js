@@ -29,3 +29,27 @@ declare type Plugin = (env: Environment, runOnce: boolean) => PluginController;
 declare type PluginController = {
   terminate(): Promise<any>,
 }
+
+declare type ClientWebpackPluginConfiguration = Configuration & {
+  settings: ConfigurationSettings & {
+    client: {
+      babelrc: ?string,
+      eslintrc: ?string,
+      indexJs: string,
+      buildDir: string,
+      srcDir: string,
+    }
+  }
+}
+
+declare type ServerWebpackPluginConfiguration = Configuration & {
+    settings: ConfigurationSettings & {
+      server: {
+        babelrc: ?string,
+        eslintrc: ?string,
+        indexJs: string,
+        buildDir: string,
+        srcDir: string,
+      }
+    }
+  }
