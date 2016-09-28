@@ -1,5 +1,5 @@
 /* @flow */
-
+const fs = require('fs');
 const path = require('path');
 
 function getEnvParam(param: string): string {
@@ -10,6 +10,8 @@ function getEnvParam(param: string): string {
   throw new Error(`process.env.${param} is not set`);
 }
 
+const cwd = fs.realpathSync(process.cwd());
+
 const defaultConfig = {
   env: {
     NODE_ENV: getEnvParam('NODE_ENV'),
@@ -18,11 +20,11 @@ const defaultConfig = {
     require('../plugins/watchConfiguration'), // eslint-disable-line global-require
   ],
   settings: {
-    appNodeModulesDir: path.resolve(process.cwd(), './node_modules'),
-    assetsPath: path.resolve(process.cwd(), './build/assets.json'),
-    appSrc: path.resolve(process.cwd(), './src'),
+    appNodeModulesDir: path.resolve(cwd, './node_modules'),
+    assetsPath: path.resolve(cwd, './build/assets.json'),
+    appSrc: path.resolve(cwd, './src'),
     babelrc: null,
-    eslintrc: null,
+    eslintrc: path.resolve(cwd, './.eslintrc'),
   },
 };
 
