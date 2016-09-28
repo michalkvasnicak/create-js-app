@@ -20,6 +20,10 @@ class Environment {
     return loadConfiguration(this);
   }
 
+  getName(): string {
+    return this.getConfiguration().env.NODE_ENV;
+  }
+
   async build(): Promise<any> {
     const config: Configuration = loadConfiguration(this);
 

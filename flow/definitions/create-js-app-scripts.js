@@ -1,8 +1,14 @@
 /* @flow */
 
-declare type ConfigurationEnvironment = Object
+declare type ConfigurationEnvironment = Object & {
+  NODE_ENV: string
+}
 declare type ConfigurationSettings = Object & {
-  appNodeModulesDir: string
+  appNodeModulesDir: string,
+  assetsPath: string,
+  appSrc: string,
+  babelrc: ?string,
+  eslintrc: ?string
 }
 
 declare type Configuration = {
@@ -19,6 +25,7 @@ declare interface Environment {
   constructor(cwd: string, configFilePath: string): void;
   configFilePath(): string;
   getConfiguration(): Configuration;
+  getName(): string;
   start(): void;
   build(): Promise<any>;
   restart(): Promise<any>;
@@ -33,11 +40,8 @@ declare type PluginController = {
 declare type ClientWebpackPluginConfiguration = Configuration & {
   settings: ConfigurationSettings & {
     client: {
-      babelrc: ?string,
-      eslintrc: ?string,
-      indexJs: string,
-      buildDir: string,
-      srcDir: string,
+      index: string,
+      bundleDir: string,
     }
   }
 }
@@ -45,11 +49,8 @@ declare type ClientWebpackPluginConfiguration = Configuration & {
 declare type ServerWebpackPluginConfiguration = Configuration & {
     settings: ConfigurationSettings & {
       server: {
-        babelrc: ?string,
-        eslintrc: ?string,
-        indexJs: string,
-        buildDir: string,
-        srcDir: string,
+        index: string,
+        bundleDir: string,
       }
     }
   }
