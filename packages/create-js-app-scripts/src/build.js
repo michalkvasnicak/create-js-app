@@ -1,10 +1,11 @@
 /* @flow */
 /* eslint-disable no-console */
-const chalk = require('chalk');
-const Environment = require('./environment');
 
 // set environment to production
 process.env.NODE_ENV = 'production';
+
+const chalk = require('chalk');
+const Environment = require('./environment');
 
 const env: Environment = new Environment(process.cwd());
 
