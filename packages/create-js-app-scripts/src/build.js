@@ -11,7 +11,7 @@ const env: Environment = new Environment(process.cwd());
 
 env.build().then(
   () => {
-    console.log(chalk.green('Successfully build'));
+    console.log(chalk.green('Successfully built'));
     process.exit(0);
   },
   (err) => {

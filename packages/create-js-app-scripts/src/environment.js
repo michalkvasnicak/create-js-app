@@ -28,9 +28,11 @@ class Environment {
     const config: Configuration = loadConfiguration(this);
 
     // run build phase on plugins (do not instantiate them)
-    await config.plugins.map(
+    const pluginControllers: PluginController[] = await config.plugins.map(
       plugin => plugin(this, true)
     );
+
+    await pluginControllers.map(pluginController => pluginController.build());
   }
 
   start(): void {

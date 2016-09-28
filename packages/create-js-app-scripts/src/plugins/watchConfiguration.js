@@ -18,6 +18,9 @@ function createUpdater(env: Environment) {
 const plugin: Plugin = (env: Environment, runOnce: boolean = false): PluginController => {
   if (runOnce) {
     return {
+      async build() {
+        return Promise.resolve();
+      },
       async terminate() {
         return true;
       },
@@ -40,6 +43,9 @@ const plugin: Plugin = (env: Environment, runOnce: boolean = false): PluginContr
   });
 
   return {
+    async build() {
+      return Promise.resolve();
+    },
     async terminate() {
       watcher.close();
     },
