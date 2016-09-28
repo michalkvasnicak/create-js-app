@@ -13,7 +13,7 @@ class Environment {
   }
 
   configFilePath(): string {
-    return path.resolve(`${this.cwd}, ${this.configFileName}`);
+    return path.resolve(this.cwd, this.configFileName);
   }
 
   getConfiguration(): Configuration {
@@ -28,11 +28,11 @@ class Environment {
     const config: Configuration = loadConfiguration(this);
 
     // run build phase on plugins (do not instantiate them)
-    const pluginControllers: PluginController[] = await config.plugins.map(
+    const pluginControllers: PluginController[] = await Promise.all(config.plugins.map(
       plugin => plugin(this, true)
-    );
+    ));
 
-    await pluginControllers.map(pluginController => pluginController.build());
+    await Promise.all(pluginControllers.map(pluginController => pluginController.build()));
   }
 
   start(): void {
@@ -46,7 +46,7 @@ class Environment {
 
   async restart(): Promise<any> {
     // terminate all plugins
-    await this.plugins.map(pluginController => pluginController.terminate());
+    await Promise.all(this.plugins.map(pluginController => pluginController.terminate()));
 
     // start all plugins
     this.start();
