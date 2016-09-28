@@ -34,6 +34,7 @@ declare interface Environment {
 declare type Plugin = (env: Environment, runOnce: boolean) => PluginController;
 
 declare type PluginController = {
+  build(): Promise<any>,
   terminate(): Promise<any>,
 }
 
