@@ -1,10 +1,10 @@
 /* @flow */
-
-const Environment = require('./environment');
-
 // set environment to development
 process.env.NODE_ENV = 'development';
 
-const env: Environment = new Environment(process.cwd());
+const fs = require('fs');
+const Environment = require('./environment');
+
+const env: Environment = new Environment(fs.realpathSync(process.cwd()));
 
 env.start();
