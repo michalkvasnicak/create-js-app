@@ -13,7 +13,7 @@ const airbnbConfig = Object.assign(
     },
     parser: 'babel-eslint',
     parserOptions: {
-      ecmaVersion: 2017,
+      ecmaVersion: 8,
       sourceType: 'module',
       ecmaFeatures: {
         generators: true,
@@ -29,7 +29,6 @@ const airbnbConfig = Object.assign(
       ),
       {
         'flowtype-errors/show-errors': 'error',
-        'generator-star-spacing': 'off',
         'new-cap': 'off',
         'react/jsx-filename-extension': 'off',
       }
