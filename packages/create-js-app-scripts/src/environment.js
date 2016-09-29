@@ -35,13 +35,15 @@ class Environment {
     await Promise.all(pluginControllers.map(pluginController => pluginController.build()));
   }
 
-  start(): void {
+  async start(): Promise<any> {
     const config: Configuration = loadConfiguration(this);
 
     // instantiate plugins
-    this.plugins = config.plugins.map(
+    this.plugins = await Promise.all(config.plugins.map(
       plugin => plugin(this, false)
-    );
+    ));
+
+    await Promise.all(this.plugins.map(p => p.start()));
   }
 
   async restart(): Promise<any> {
@@ -49,7 +51,7 @@ class Environment {
     await Promise.all(this.plugins.map(pluginController => pluginController.terminate()));
 
     // start all plugins
-    this.start();
+    await this.start();
   }
 }
 

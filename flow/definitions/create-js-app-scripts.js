@@ -26,7 +26,7 @@ declare interface Environment {
   configFilePath(): string;
   getConfiguration(): Configuration;
   getName(): string;
-  start(): void;
+  start(): Promise<any>;
   build(): Promise<any>;
   restart(): Promise<any>;
 }
@@ -35,6 +35,7 @@ declare type Plugin = (env: Environment, runOnce: boolean) => PluginController;
 
 declare type PluginController = {
   build(): Promise<any>,
+  start(): Promise<any>,
   terminate(): Promise<any>,
 }
 
