@@ -4,6 +4,8 @@
 
 # Including these files causes issues.
 .*/node_modules/fbjs/.*
+.*/node_modules/create-js-app-scripts/.*
+.*/packages/js-app-template-universal/.*
 
 [libs]
 
