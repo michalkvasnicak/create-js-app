@@ -1,4 +1,5 @@
 /* @flow */
+/* eslint-disable no-console */
 // set environment to development
 process.env.NODE_ENV = 'development';
 
@@ -7,4 +8,13 @@ const Environment = require('./environment');
 
 const env: Environment = new Environment(fs.realpathSync(process.cwd()));
 
-env.start();
+process.on('SIGINT', () => {
+  env.stop();
+});
+
+env.start().catch(
+  (e) => {
+    console.log(e);
+    process.exit(1);
+  }
+);

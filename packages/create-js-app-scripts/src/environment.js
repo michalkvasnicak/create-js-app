@@ -53,6 +53,10 @@ class Environment {
     // start all plugins
     await this.start();
   }
+
+  async stop(): Promise<any> {
+    await Promise.all(this.plugins.map(pluginController => pluginController.terminate()));
+  }
 }
 
 module.exports = Environment;

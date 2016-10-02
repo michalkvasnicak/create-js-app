@@ -29,6 +29,7 @@ declare interface Environment {
   start(): Promise<any>;
   build(): Promise<any>;
   restart(): Promise<any>;
+  stop(): Promise<any>;
 }
 
 declare type Plugin = (env: Environment, runOnce: boolean) => PluginController;
