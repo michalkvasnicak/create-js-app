@@ -20,7 +20,9 @@ const airbnbConfig = Object.assign(
         experimentalObjectRestSpread: true,
       },
     },
-    plugins: ['flowtype', 'flowtype-errors'],
+    // temporarily disable flowtype-errors plugin
+    // because it is messing with RAM
+    plugins: ['flowtype'/* , 'flowtype-errors'*/],
     // disable import rules temporarily
     rules: Object.assign(
       {},
@@ -28,7 +30,7 @@ const airbnbConfig = Object.assign(
         (rules, rule) => Object.assign({}, rules, { [`import/${rule}`]: 'off' }), {}
       ),
       {
-        'flowtype-errors/show-errors': 'error',
+        // 'flowtype-errors/show-errors': 'error', todo enable when problems are solved
         'new-cap': 'off',
         'react/jsx-filename-extension': 'off',
       }
