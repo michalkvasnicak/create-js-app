@@ -5,11 +5,13 @@ const loadConfiguration = require('./utils/loadConfiguration');
 class Environment {
   cwd: string;
   configFileName: string;
+  logger: Logger;
   plugins: Array<PluginController>;
 
-  constructor(cwd: string, configFileName: string = '.app.js') {
+  constructor(cwd: string, configFileName: string = '.app.js', logger: Logger) {
     this.cwd = cwd;
     this.configFileName = configFileName;
+    this.logger = logger;
   }
 
   configFilePath(): string {
@@ -29,7 +31,7 @@ class Environment {
 
     // run build phase on plugins (do not instantiate them)
     const pluginControllers: PluginController[] = await Promise.all(config.plugins.map(
-      plugin => plugin(this, true)
+      plugin => plugin(this, true, this.logger)
     ));
 
     await Promise.all(pluginControllers.map(pluginController => pluginController.build()));
@@ -40,7 +42,7 @@ class Environment {
 
     // instantiate plugins
     this.plugins = await Promise.all(config.plugins.map(
-      plugin => plugin(this, false)
+      plugin => plugin(this, false, this.logger)
     ));
 
     await Promise.all(this.plugins.map(p => p.start()));

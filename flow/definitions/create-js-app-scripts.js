@@ -32,7 +32,7 @@ declare interface Environment {
   stop(): Promise<any>;
 }
 
-declare type Plugin = (env: Environment, runOnce: boolean) => PluginController;
+declare type Plugin = (env: Environment, runOnce: boolean, logger: Logger) => PluginController;
 
 declare type PluginController = {
   build(): Promise<any>,
@@ -50,10 +50,29 @@ declare type ClientWebpackPluginConfiguration = Configuration & {
 }
 
 declare type ServerWebpackPluginConfiguration = Configuration & {
-    settings: ConfigurationSettings & {
-      server: {
-        index: string,
-        bundleDir: string,
-      }
+  settings: ConfigurationSettings & {
+    server: {
+      index: string,
+      bundleDir: string,
     }
   }
+}
+
+declare interface Logger {
+  createGroup(name: string): LogGroup;
+  removeGroup(name: string): void;
+  render(): void;
+}
+
+declare interface LogGroup {
+  clear(): void;
+  constructor(name: string, logger: Logger): void;
+  getMessages(): string;
+  getName(): string;
+  log(message: string): void;
+  info(message: string): void;
+  error(message: string): void;
+  success(message: string): void;
+  warning(message: string): void;
+  remove(): void;
+}

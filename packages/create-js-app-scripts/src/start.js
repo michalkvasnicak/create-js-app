@@ -5,8 +5,13 @@ process.env.NODE_ENV = 'development';
 
 const fs = require('fs');
 const Environment = require('./environment');
+const Logger = require('./logger');
 
-const env: Environment = new Environment(fs.realpathSync(process.cwd()));
+const env: Environment = new Environment(
+  fs.realpathSync(process.cwd()),
+  undefined,
+  new Logger()
+);
 
 process.on('SIGINT', () => {
   env.stop();
