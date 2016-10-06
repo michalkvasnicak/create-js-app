@@ -12,17 +12,6 @@
     "node": ">=6.0"
   },
   "engineStrict": true,
-  "files": [
-    ".app.js",
-    ".flowconfig",
-    "gitignore",
-    ".eslintrc",
-    "README.md",
-    "flow",
-    "package.dist.json",
-    "public",
-    "src"
-  ],
   "dependencies": {
     "koa": "2.0",
     "koa-convert": "1.2.0",
