@@ -1,4 +1,3 @@
-/* @flow */
 /* eslint-disable no-console */
 const chalk = require('chalk');
 const spawn = require('cross-spawn');
@@ -18,7 +17,7 @@ module.exports = {
       type: 'string',
     },
   },
-  handler: (argv: { path: string, template: string }) => {
+  handler: (argv) => {
     const destinationPath = path.resolve(process.cwd(), argv.path);
     const projectName = path.basename(destinationPath);
     const template = argv.template;
