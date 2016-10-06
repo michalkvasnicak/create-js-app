@@ -21,7 +21,7 @@ module.exports = {
     const destinationPath = path.resolve(process.cwd(), argv.path);
     const projectName = path.basename(destinationPath);
     const template = argv.template;
-    const templateDirectory = template.replace(/@.+/, ''); // strip version
+    const templateDirectory = path.basename(template.replace(/@.+/, '')); // strip version
 
     if (pathExists.sync(destinationPath)) {
       console.log(
@@ -57,7 +57,7 @@ module.exports = {
       console.log(chalk.cyan(`Installing ${template} from npm...`));
       console.log();
 
-      const result = spawn.sync(
+      let result = spawn.sync(
         'npm',
         [
           'install',
@@ -95,6 +95,37 @@ module.exports = {
 
       // save package.json
       fs.writeFileSync(appPackageJsonPath, JSON.stringify(appPackageJson, null, 2));
+
+      // if there is gitignore file, rename it
+      const gitignorePath = path.join(destinationPath, 'gitignore');
+
+      if (pathExists.sync(gitignorePath)) {
+        fsExtra.renameSync(gitignorePath, path.join(destinationPath, '.gitignore'));
+      }
+
+      // if there is package.dist.json file, rename it and run install
+      const distPackageJson = path.join(destinationPath, 'package.dist.json');
+
+      if (!pathExists.sync(distPackageJson)) {
+        console.log(chalk.red('package.dist.json is missing in template'));
+        process.exit(1);
+      }
+
+      fsExtra.removeSync(path.join(destinationPath, 'package.json'));
+      fsExtra.renameSync(distPackageJson, path.join(destinationPath, 'package.json'));
+
+      console.log(
+        chalk.cyan('Installing template dependencies. This might take a couple minutes.')
+      );
+      console.log('Installing from npm...');
+      console.log();
+
+      result = spawn.sync('npm', ['install'], { stdio: 'inherit' });
+
+      if (result.status !== 0) {
+        console.log(chalk.red('Installation failed...'));
+        process.exit(1);
+      }
 
       // done, we don't install create-js-app-scripts here
       // because we are using templates, which can differ
