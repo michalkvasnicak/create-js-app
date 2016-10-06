@@ -1,0 +1,19 @@
+[include]
+
+[ignore]
+
+# Including these files causes issues.
+.*/node_modules/fbjs/.*
+.*/create-js-app-scripts/.*
+.*/js-app-plugin-universal-webpack/.*
+
+[libs]
+
+flow/definitions/
+
+[options]
+esproposal.class_static_fields=enable
+esproposal.class_instance_fields=enable
+module.ignore_non_literal_requires=true
+module.name_mapper='^\(.*\)\.\(eot\|gif\|ico\|jpg\|jpeg\|otf\|mp3\|mp4\|ogg\|png\|svg\|swf\|ttf\|webp\|woff\|woff2\)$' -> '<PROJECT_ROOT>/flow/stubs/WebpackAsset.js.flow'
+module.name_mapper='^\(.*\)\.\(css\|less\|sass\|scss\)$' -> '<PROJECT_ROOT>/flow/stubs/WebpackAsset.css.flow'

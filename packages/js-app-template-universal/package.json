@@ -1,0 +1,52 @@
+{
+  "name": "js-app-template-universal",
+  "version": "0.1.0",
+  "description": "Universal project template used by Create JS App",
+  "license": "MIT",
+  "author": "Michal Kvasničák (https://twitter.com/@michalkvasnicak)",
+  "repository": "michalkvasnicak/create-js-app",
+  "bugs": {
+    "url": "https://github.com/michalkvasnicak/create-js-app/issues"
+  },
+  "engines": {
+    "node": ">=6.0"
+  },
+  "engineStrict": true,
+  "files": [
+    ".eslintrc",
+    "README.md",
+    "src"
+  ],
+  "dependencies": {
+    "koa": "2.0",
+    "koa-convert": "1.2.0",
+    "koa-static-cache": "3.1.7",
+    "normalize.css": "4.2.0",
+    "react": "15.3.2",
+    "react-dom": "15.3.2",
+    "react-helmet": "3.1.0"
+  },
+  "devDependencies": {
+    "create-js-app-scripts": "^0.8.0",
+    "babel-eslint": "6.1.2",
+    "eslint": "3.6.0",
+    "eslint-config-airbnb": "12.0.0",
+    "eslint-config-js-app": "^0.1.4",
+    "eslint-loader": "1.5.0",
+    "eslint-plugin-import": "1.16.0",
+    "eslint-plugin-flowtype": "2.19.0",
+    "eslint-plugin-flowtype-errors": "1.1.0",
+    "eslint-plugin-jsx-a11y": "2.2.2",
+    "eslint-plugin-react": "6.3.0",
+    "flow-bin": "0.33.0",
+    "js-app-plugin-universal-webpack": "^0.1.2",
+    "react-test-renderer": "15.3.2"
+  },
+  "scripts": {
+    "build": "create-js-app-scripts build",
+    "lint": "node ./node_modules/.bin/eslint packages",
+    "flow": "node ./node_modules/.bin/flow check",
+    "start": "create-js-app-scripts start",
+    "test": "create-js-app-scripts test"
+  }
+}

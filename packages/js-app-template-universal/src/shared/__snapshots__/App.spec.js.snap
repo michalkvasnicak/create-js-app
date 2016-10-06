@@ -1,0 +1,8 @@
+exports[`test renders App 1`] = `
+<div>
+  <h1
+    className={undefined}>
+    Hello World
+  </h1>
+</div>
+`;
