@@ -6,8 +6,9 @@ process.env.NODE_ENV = 'production';
 
 const chalk = require('chalk');
 const Environment = require('./environment');
+const Logger = require('./logger');
 
-const env: Environment = new Environment(process.cwd());
+const env: Environment = new Environment(process.cwd(), undefined, new Logger());
 
 env.build().then(
   () => {
