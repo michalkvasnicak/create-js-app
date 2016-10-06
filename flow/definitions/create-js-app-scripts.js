@@ -67,7 +67,7 @@ declare interface Logger {
 declare interface LogGroup {
   clear(): void;
   constructor(name: string, logger: Logger): void;
-  getMessages(): string;
+  getMessages(): string[];
   getName(): string;
   log(message: string): void;
   info(message: string): void;

@@ -34,30 +34,37 @@ class ServerManager {
 
     this.server.unref();
 
+    const on = this.server
+      ? this.server.on.bind(this.server)
+      : () => {};
+
     // listen to all connections so we can destroy them on restart
-    this.server.on('connection', (socket: net$Socket) => {
+    on('connection', (socket: net$Socket) => {
       socket.unref();
 
       const socketId = this.socketId = this.socketId + 1;
-      this.sockets[socketId] = socket;
+      this.sockets[socketId.toString()] = socket;
 
-      socket.on('close', () => delete this.sockets[socketId]);
+      socket.on('close', () => delete this.sockets[socketId.toString()]);
     });
   }
 
-  setLogger(logger: Logger) {
+  setLogger(logger: LogGroup) {
     this.logger = logger;
   }
 
   async close() {
     if (this.server) {
       Object.keys(this.sockets).forEach((socketId) => {
-        const socket = this.sockets[socketId];
+        const socket = this.sockets[socketId.toString()];
         socket.destroy();
       });
       this.sockets = {};
+      const close = this.server
+        ? this.server.close.bind(this.server)
+        : cb => cb();
 
-      await new Promise(resolve => this.server.close(resolve));
+      await new Promise(resolve => close(resolve));
 
       this.server = null;
     }
@@ -71,7 +78,11 @@ module.exports = class ServerListenerPlugin {
   logger: LogGroup;
   serverManager: Object;
 
-  constructor(env: Environment, logger: LogGroup, serverManager = sharedServerManager) {
+  constructor(
+    env: Environment,
+    logger: LogGroup,
+    serverManager: ServerManager = sharedServerManager
+  ) {
     this.env = env;
     this.logger = logger;
     this.serverManager = serverManager;

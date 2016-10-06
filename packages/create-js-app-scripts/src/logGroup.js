@@ -38,7 +38,7 @@ class LogGroup {
     this.log(chalk.red(message));
   }
 
-  getMessages(): Array<string> {
+  getMessages(): string[] {
     return this.messages;
   }
 

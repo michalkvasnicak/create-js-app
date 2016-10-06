@@ -8,7 +8,8 @@ const chalk = require('chalk');
 const Environment = require('./environment');
 const Logger = require('./logger');
 
-const env: Environment = new Environment(process.cwd(), undefined, new Logger());
+const logger: Logger = new Logger();
+const env: Environment = new Environment(process.cwd(), undefined, logger);
 
 env.build().then(
   () => {
