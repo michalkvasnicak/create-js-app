@@ -13,8 +13,13 @@
   },
   "engineStrict": true,
   "files": [
+    ".app.js",
+    ".flowconfig",
+    ".gitignore",
     ".eslintrc",
     "README.md",
+    "flow",
+    "public",
     "src"
   ],
   "dependencies": {
