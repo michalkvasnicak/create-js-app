@@ -40,7 +40,10 @@ module.exports = function createConfig(env: Environment, logger: LogGroup): Obje
     },
     // resolve loaders from this plugin directory
     resolveLoader: {
-      modules: [path.resolve(__dirname, '../../../node_modules')],
+      modules: [
+        path.resolve(__dirname, '../../../node_modules'),
+        path.resolve(__dirname, '../../../../'), // resolve to project node_modules
+      ],
     },
     module: {
       loaders: [
