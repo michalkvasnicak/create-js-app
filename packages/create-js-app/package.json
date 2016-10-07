@@ -1,6 +1,6 @@
 {
   "name": "create-js-app",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Create full stack javascript application with no build configuration.",
   "license": "MIT",
   "author": "Michal Kvasničák (https://twitter.com/@michalkvasnicak)",
