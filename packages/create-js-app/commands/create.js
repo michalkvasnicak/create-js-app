@@ -131,6 +131,14 @@ module.exports = {
       // because we are using templates, which can differ
       // only init command is installing create-js-app-scripts :)
       console.log(chalk.green(`Project ${projectName} successfully created`));
+      console.log('');
+      console.log(chalk.cyan('You can use these commands now:'));
+      console.log('  - npm start - to start a development server');
+      console.log('  - npm run build - to build a production build');
+      console.log('  - npm test - to start testing');
+      console.log('  - For more check commands defined by the template');
+      console.log('');
+
       console.log(chalk.cyan('Happy hacking ;)'));
       process.exit(0);
     } catch (e) {
