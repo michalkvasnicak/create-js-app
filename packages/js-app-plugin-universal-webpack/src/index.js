@@ -1,6 +1,7 @@
 /* @flow */
 /* eslint-disable global-require, no-console */
 const fs = require('fs-extra');
+const openBrowser = require('react-dev-utils/openBrowser');
 const webpack = require('webpack');
 const WebpackDevServer = require('webpack-dev-server');
 
@@ -92,12 +93,13 @@ const plugin: Plugin = (
           clientDevServer.listen(envVariables.SERVER_PORT - 1, (err) => {
             if (err) {
               console.log(err);
-              reject(err);
+              return reject(err);
             }
-          });
 
-          // todo create flow script
-          // todo create test script
+            return openBrowser(
+              `${settings.client.protocol || 'http'}://localhost:${envVariables.SERVER_PORT - 1}/`
+            );
+          });
 
           serverCompiler = webpack({
             ...serverConfig,
