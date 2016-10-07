@@ -1,4 +1,4 @@
-# Create JS App
+# Create JS App [![CircleCI](https://circleci.com/gh/michalkvasnicak/create-js-app/tree/master.svg?style=svg&circle-token=ea51ecdfaed48e61f96b998f9731896b9ffe4776)](https://circleci.com/gh/michalkvasnicak/create-js-app/tree/master)
 
 Develop any kind of javascript apps (mobile, full stack, libraries, ...) in an easy way.
 
