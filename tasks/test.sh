@@ -79,9 +79,11 @@ npm run lint
 
 # try to flow type check
 npm run flow
+lerna run flow
 
 # run tests
-npm test
+CI=true npm test
+CI=true lerna run test
 
 # try to build production build
 npm run build
