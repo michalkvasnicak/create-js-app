@@ -16,7 +16,8 @@
   },
   "engineStrict": true,
   "files": [
-    "index.js"
+    "index.js",
+    "commands"
   ],
   "dependencies": {
     "chalk": "1.1.3",
