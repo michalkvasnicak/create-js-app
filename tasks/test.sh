@@ -87,3 +87,6 @@ CI=true lerna run test
 
 # try to build production build
 npm run build
+
+# cleanup
+cleanup
