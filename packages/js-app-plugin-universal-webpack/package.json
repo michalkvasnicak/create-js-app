@@ -1,6 +1,6 @@
 {
   "name": "js-app-plugin-universal-webpack",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "Webpack client side compiler plugin for Create JS App",
   "license": "MIT",
   "author": "Michal Kvasničák (https://twitter.com/@michalkvasnicak)",
@@ -23,7 +23,7 @@
     "babel-core": "6.16.0",
     "babel-eslint": "7.0.0",
     "babel-loader": "6.2.5",
-    "babel-preset-js-app": "^0.2.0",
+    "babel-preset-js-app": "^0.2.1",
     "case-sensitive-paths-webpack-plugin": "1.1.4",
     "css-loader": "0.25.0",
     "eslint-loader": "1.5.0",
