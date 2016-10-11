@@ -2,11 +2,22 @@ const env = process.env.BABEL_ENV || process.env.NODE_ENV;
 
 module.exports = {
   presets: [
-    require.resolve('./shared'),
+    require.resolve('babel-preset-react'),
     // webpack 2 supports es6 modules
-    [require.resolve('babel-preset-latest-minimal'), { es2015: { modules: false } }],
+    [
+      require.resolve('babel-preset-latest-node6'),
+      {
+        es2015: { modules: false },
+        'object-rest': true,
+      },
+    ],
   ],
-  plugins: [],
+  plugins: [
+    // class { handleClick = () => { } }
+    require.resolve('babel-plugin-transform-class-properties'),
+    // { ...param, completed: true }
+    require.resolve('babel-plugin-transform-object-rest-spread'),
+  ],
 };
 
 if (env === 'development' || env === 'test') {
