@@ -5,7 +5,9 @@ Universal project template using Create JS App.
 ## Development
 
 `npm start`
-`npm test
+`npm run lint`
+`npm run flow`
+`npm test`
 
 ## Production
 
