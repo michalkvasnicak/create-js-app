@@ -15,8 +15,7 @@
   "files": [
     "client.js",
     "index.js",
-    "server.js",
-    "shared.js"
+    "server.js"
   ],
   "dependencies": {
     "babel-plugin-transform-class-properties": "6.16.0",
