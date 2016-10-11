@@ -114,7 +114,7 @@ module.exports = function createConfig(env: Environment, logger: LogGroup): Obje
 
       // define global variable
       new webpack.DefinePlugin({
-        'process.env': defineVariables(envVariables),
+        'process.env': defineVariables(envVariables, { IS_CLIENT: true }),
       }),
 
       new webpack.optimize.OccurrenceOrderPlugin(),

@@ -119,7 +119,7 @@ module.exports = function createConfig(env: Environment, logger: LogGroup): Obje
 
       // define global variable
       new webpack.DefinePlugin({
-        'process.env': defineVariables(envVariables),
+        'process.env': defineVariables(envVariables, { IS_SERVER: true }),
       }),
 
       new webpack.optimize.LimitChunkCountPlugin({ maxChunks: 1 }),
