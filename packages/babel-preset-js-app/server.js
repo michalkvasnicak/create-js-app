@@ -4,7 +4,7 @@ module.exports = {
   presets: [
     require.resolve('./shared'),
     // webpack 2 supports es6 modules
-    require.resolve('babel-preset-latest-minimal', { es2015: { modules: false } }),
+    [require.resolve('babel-preset-latest-minimal'), { es2015: { modules: false } }],
   ],
   plugins: [],
 };
