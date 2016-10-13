@@ -19,7 +19,6 @@
     ".eslintrc",
     "README.md",
     "flow",
-    "package.dist.json",
     "public",
     "src"
   ],
