@@ -2,6 +2,10 @@ machine:
   node:
     version: 6.7.0
 
+dependencies:
+  override:
+    - curl -o- -L https://yarnpkg.com/install.sh | bash
+
 test:
   override:
     - ./tasks/test.sh
