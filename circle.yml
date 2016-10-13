@@ -3,6 +3,9 @@ machine:
     version: 6.7.0
 
 dependencies:
+  cache_directories:
+    - node_modules
+    - ~/.yarn-cache
   override:
     - curl -o- -L https://yarnpkg.com/install.sh | bash
     - yarn global add lerna@2.0.0-beta.30
