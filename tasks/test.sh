@@ -25,6 +25,10 @@ function replace_package {
     ./tasks/replace-package.sh $*
 }
 
+function lerna {
+    $temp_path/node_modules/.bin/lerna $*
+}
+
 # Exit the script with a helpful error message when any error is encountered
 trap 'set +x; handle_error $LINENO $BASH_COMMAND' ERR
 
