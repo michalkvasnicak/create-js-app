@@ -47,16 +47,16 @@ rsync -av --exclude="**/node_modules/**" --exclude="**.git/*" --exclude="**.idea
 cd $temp_path
 
 # install dependencies
-npm install
+yarn install
 
 # bootstrap packages ( this will build them )
 lerna bootstrap
 
 # run lint
-npm run lint
+yarn run lint
 
 # run flow
-npm run flow
+yarn run flow
 lerna run flow
 
 # now substitute paths to packages
@@ -79,18 +79,18 @@ node packages/create-js-app/index.js create test-app --template=$js_app_template
 cd test-app
 
 # lint project
-npm run lint
+yarn run lint
 
 # try to flow type check
-npm run flow
+yarn run flow
 lerna run flow
 
 # run tests
-CI=true npm test
+CI=true yarn test
 CI=true lerna run test
 
 # try to build production build
-npm run build
+yarn run build
 
 # cleanup
 cleanup
