@@ -106,7 +106,7 @@ module.exports = {
       // find package.json from installed template
       // so we can copy dependencies
       const templatePackageJsonPath = path.join(
-        destinationPath, 'node_modules', templateDirectory, 'package.json'
+        destinationPath, 'package.json'
       );
 
       if (!pathExists.sync(templatePackageJsonPath)) {
@@ -125,7 +125,7 @@ module.exports = {
       packageJson.scripts = templatePackageJson.scripts || {};
 
       fs.writeFileSync(
-        appPackageJsonPath,
+        templatePackageJsonPath,
         JSON.stringify(packageJson)
       );
 
