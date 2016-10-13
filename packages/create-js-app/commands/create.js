@@ -103,16 +103,31 @@ module.exports = {
         fsExtra.renameSync(gitignorePath, path.join(destinationPath, '.gitignore'));
       }
 
-      // if there is package.dist.json file, rename it and run install
-      const distPackageJson = path.join(destinationPath, 'package.dist.json');
+      // find package.json from installed template
+      // so we can copy dependencies
+      const templatePackageJsonPath = path.join(
+        destinationPath, 'node_modules', templateDirectory, 'package.json'
+      );
 
-      if (!pathExists.sync(distPackageJson)) {
-        console.log(chalk.red('package.dist.json is missing in template'));
-        process.exit(1);
+      if (!pathExists.sync(templatePackageJsonPath)) {
+        console.log(
+          chalk.red(`package.json not found in ${templatePackageJsonPath}`)
+        );
       }
 
-      fsExtra.removeSync(path.join(destinationPath, 'package.json'));
-      fsExtra.renameSync(distPackageJson, path.join(destinationPath, 'package.json'));
+      const templatePackageJson = JSON.parse(
+        fs.readFileSync(templatePackageJsonPath, { encoding: 'utf8' })
+      );
+
+      // add dependencies from package.json
+      packageJson.dependencies = templatePackageJson.dependencies || {};
+      packageJson.devDependencies = templatePackageJson.devDependencies || {};
+      packageJson.scripts = templatePackageJson.scripts || {};
+
+      fs.writeFileSync(
+        appPackageJsonPath,
+        JSON.stringify(packageJson)
+      );
 
       console.log(
         chalk.cyan('Installing template dependencies. This might take a couple minutes.')
