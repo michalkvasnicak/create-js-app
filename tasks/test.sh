@@ -4,8 +4,7 @@ cd "$(dirname "$0")"
 
 function cleanup {
   echo 'Cleaning up.'
-  cd $root_path
-  rm -rf __test_package__
+  rm -rf $temp_path
 }
 
 # Error messages are redirected to stderr
@@ -37,12 +36,15 @@ set -x
 
 # substitute paths to packages to local directories
 cd ..
-root_path=$PWD
+
+# Install the CLI in a temporary location
+# http://unix.stackexchange.com/a/84980
+temp_path=`mktemp -d 2>/dev/null || mktemp -d -t 'temp_cli_path'`
 
 # copy current folder to test folder
-rsync -av --exclude="**/node_modules/**" --exclude="**.git/*" --exclude="**.idea/**" . __test_package__
+rsync -av --exclude="**/node_modules/**" --exclude="**.git/*" --exclude="**.idea/**" . $temp_path
 
-cd __test_package__
+cd $temp_path
 
 # install dependencies
 npm install
