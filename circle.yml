@@ -5,6 +5,7 @@ machine:
 dependencies:
   override:
     - curl -o- -L https://yarnpkg.com/install.sh | bash
+    - yarn global add lerna@2.0.0-beta.30
 
 test:
   override:
