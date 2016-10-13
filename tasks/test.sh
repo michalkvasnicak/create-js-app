@@ -5,7 +5,7 @@ cd "$(dirname "$0")"
 function cleanup {
   echo 'Cleaning up.'
   cd $root_path
-  rm -rf test-app
+  rm -rf __test_package__
 }
 
 # Error messages are redirected to stderr
@@ -32,9 +32,17 @@ trap 'set +x; handle_error $LINENO $BASH_COMMAND' ERR
 # Cleanup before exit on any termination signal
 trap 'set +x; handle_exit' SIGQUIT SIGTERM SIGINT SIGKILL SIGHUP
 
+# echo every command
+set -x
+
 # substitute paths to packages to local directories
 cd ..
 root_path=$PWD
+
+# copy current folder to test folder
+rsync -av --exclude="**/node_modules/**" --exclude="**.git/*" --exclude="**.idea/**" . __test_package__
+
+cd __test_package__
 
 # install dependencies
 npm install
@@ -59,14 +67,8 @@ js_app_template_universal=$(./tasks/resolve-package.sh js-app-template-universal
 replace_package $create_js_app_scripts babel-preset-js-app $babel_preset_js_app
 replace_package $js_app_plugin_universal_webpack babel-preset-js-app $babel_preset_js_app
 replace_package $js_app_template_universal eslint-config-js-app $eslint_config_js_app
-replace_package $js_app_template_universal eslint-config-js-app $eslint_config_js_app  package.dist.json
 replace_package $js_app_template_universal create-js-app-scripts $create_js_app_scripts
-replace_package $js_app_template_universal create-js-app-scripts $create_js_app_scripts package.dist.json
 replace_package $js_app_template_universal js-app-plugin-universal-webpack $js_app_plugin_universal_webpack
-replace_package $js_app_template_universal js-app-plugin-universal-webpack $js_app_plugin_universal_webpack package.dist.json
-
-# echo every command
-set -x
 
 # create application using create command
 node packages/create-js-app/index.js create test-app --template=$js_app_template_universal
