@@ -19,8 +19,8 @@ function scriptTags(scripts: Array<string>) {
     .join('\n');
 }
 
-const styles = styleTags(assets.styles);
-const scripts = scriptTags(assets.scripts);
+const styles = styleTags(assets().styles);
+const scripts = scriptTags(assets().scripts);
 
 export default function renderHtml(element: ?Object, initialState: ?Object): string {
   const reactRenderString = element
