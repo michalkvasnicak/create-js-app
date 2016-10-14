@@ -122,6 +122,7 @@ module.exports = {
       // add dependencies from package.json
       packageJson.dependencies = templatePackageJson.dependencies || {};
       packageJson.devDependencies = templatePackageJson.devDependencies || {};
+      packageJson.peerDependencies = templatePackageJson.peerDependencies || {};
       packageJson.scripts = templatePackageJson.scripts || {};
 
       fs.writeFileSync(
