@@ -17,7 +17,7 @@ module.exports = function defineVariables(
 
   return Object.keys(variables).reduce(
     (result: Object, key: string) => {
-      let value = JSON.stringify(variables[key]);
+      let value = variables[key];
 
       if (typeof value !== 'string') {
         value = String(value);
@@ -25,7 +25,7 @@ module.exports = function defineVariables(
 
       return {
         ...result,
-        [key]: value,
+        [key]: JSON.stringify(value),
       };
     },
     defineVariables(predefined)
