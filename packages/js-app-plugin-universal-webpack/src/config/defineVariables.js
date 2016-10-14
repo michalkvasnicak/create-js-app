@@ -10,13 +10,24 @@
 module.exports = function defineVariables(
   variables: Object,
   predefined: Object = {}
-): Object {
+): { [key: string]: string } {
   if (!Object.keys(variables).length) {
     return {};
   }
 
   return Object.keys(variables).reduce(
-    (result: Object, key: string) => ({ ...result, [key]: JSON.stringify(variables[key]) }),
+    (result: Object, key: string) => {
+      let value = JSON.stringify(variables[key]);
+
+      if (typeof value !== 'string') {
+        value = String(value);
+      }
+
+      return {
+        ...result,
+        [key]: value,
+      };
+    },
     defineVariables(predefined)
   );
 };
