@@ -1,14 +1,14 @@
 /* @flow */
 
-function getEnvVariable(name: string): string {
-  if (process.env[name] === undefined || process.env[name] === null) {
-    throw new Error(`process.env.${name} has to be nonempty string`);
+function notEmpty(value: ?string): string {
+  if (value == null) {
+    throw new Error('Has to be nonempty string');
   }
 
-  return process.env[name];
+  return value;
 }
 
-export const ASSETS_PATH: string = getEnvVariable('ASSETS_PATH');
-export const ASSETS_DIR: string = getEnvVariable('ASSETS_DIR');
-export const PUBLIC_DIR: string = getEnvVariable('PUBLIC_DIR');
-export const SERVER_PORT: number = parseInt(getEnvVariable('SERVER_PORT'), 10);
+export const ASSETS_PATH: string = notEmpty(process.env.ASSETS_PATH);
+export const ASSETS_DIR: string = notEmpty(process.env.ASSETS_DIR);
+export const PUBLIC_DIR: string = notEmpty(process.env.PUBLIC_DIR);
+export const SERVER_PORT: number = parseInt(notEmpty(process.env.SERVER_PORT), 10);
