@@ -62,7 +62,7 @@ module.exports = function createConfig(env: Environment, logger: LogGroup): Obje
           test: /\.css$/,
           loader: ExtractTextPlugin.extract({
             fallbackLoader: 'style',
-            loader: 'css?modules&-autoprefixer!postcss',
+            loader: 'css?modules&minimize&-autoprefixer!postcss',
           }),
         },
         // json
