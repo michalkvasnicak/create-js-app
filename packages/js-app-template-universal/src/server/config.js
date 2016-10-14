@@ -10,5 +10,6 @@ function notEmpty(value: ?string): string {
 
 export const ASSETS_PATH: string = notEmpty(process.env.ASSETS_PATH);
 export const ASSETS_DIR: string = notEmpty(process.env.ASSETS_DIR);
+export const IS_DEVELOPMENT: boolean = notEmpty(process.env.NODE_ENV) === 'development';
 export const PUBLIC_DIR: string = notEmpty(process.env.PUBLIC_DIR);
 export const SERVER_PORT: number = parseInt(notEmpty(process.env.SERVER_PORT), 10);

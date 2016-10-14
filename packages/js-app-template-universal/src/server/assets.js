@@ -11,26 +11,44 @@ type Chunk = {
 };
 
 import fs from 'fs';
-import { ASSETS_PATH } from './config';
+import { ASSETS_PATH, IS_DEVELOPMENT } from './config';
 
+let assetsMap: AssetsMap = {
+  scripts: [],
+  styles: [],
+};
 let loadedAssets = {};
 
-try {
-  loadedAssets = JSON.parse(fs.readFileSync(ASSETS_PATH, 'utf8'));
-} catch (e) {
-  // do nothing
+function hasAssets(): boolean {
+  return assetsMap.scripts.length > 0 || assetsMap.styles.length > 0;
 }
 
-const chunks: Chunk[] = Object.keys(loadedAssets).map(key => loadedAssets[key]);
-const assets = chunks.reduce((acc: AssetsMap, chunk: Chunk) => {
-  if (chunk.js) {
-    acc.scripts.push(...chunk.js);
+export default function assets(): AssetsMap {
+  if (hasAssets() && !IS_DEVELOPMENT) {
+    return assetsMap;
   }
-  if (chunk.css) {
-    acc.styles.push(...chunk.css);
+
+  try {
+    loadedAssets = JSON.parse(fs.readFileSync(ASSETS_PATH, 'utf8'));
+  } catch (e) {
+    // do nothing
   }
-  return acc;
-}, { scripts: [], styles: [] });
 
-export default assets;
+  const chunks: Chunk[] = Object.keys(loadedAssets).map(key => loadedAssets[key]);
+  assetsMap = chunks.reduce(
+    (acc: AssetsMap, chunk: Chunk) => {
+      if (chunk.js) {
+        acc.scripts.push(...chunk.js);
+      }
 
+      if (chunk.css) {
+        acc.styles.push(...chunk.css);
+      }
+
+      return acc;
+    },
+    { scripts: [], styles: [] }
+  );
+
+  return assetsMap;
+}
