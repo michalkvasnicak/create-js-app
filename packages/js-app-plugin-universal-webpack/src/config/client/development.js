@@ -6,6 +6,8 @@ const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin');
 const findCacheDir = require('find-cache-dir');
 const LoggerPlugin = require('../../webpack/LoggerPlugin');
 const path = require('path');
+const postCssImport = require('postcss-import');
+const postCssCssNext = require('postcss-cssnext');
 const WatchMissingNodeModulesPlugin = require('react-dev-utils/WatchMissingNodeModulesPlugin');
 const webpack = require('webpack');
 
@@ -68,7 +70,7 @@ module.exports = function createConfig(env: Environment, logger: LogGroup): Obje
         // css
         {
           test: /\.css$/,
-          loader: 'style!css?modules!postcss',
+          loader: 'style!css?modules&importLoaders=1!postcss',
         },
         // json
         {
@@ -122,6 +124,8 @@ module.exports = function createConfig(env: Environment, logger: LogGroup): Obje
                 'not ie < 9', // React doesn't support IE8 anyway
               ],
             }),
+            postCssImport(),
+            postCssCssNext(),
           ]),
         },
       }),

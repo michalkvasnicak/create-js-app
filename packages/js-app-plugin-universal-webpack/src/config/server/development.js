@@ -6,6 +6,8 @@ const findCacheDir = require('find-cache-dir');
 const LoggerPlugin = require('../../webpack/LoggerPlugin');
 const nodeExternals = require('webpack-node-externals');
 const path = require('path');
+const postCssImport = require('postcss-import');
+const postCssCssNext = require('postcss-cssnext');
 const ServerListenerPlugin = require('../../webpack/ServerListenerPlugin');
 const WatchMissingNodeModulesPlugin = require('react-dev-utils/WatchMissingNodeModulesPlugin');
 const webpack = require('webpack');
@@ -71,7 +73,7 @@ module.exports = function createConfig(env: Environment, logger: LogGroup): Obje
         // css
         {
           test: /\.css$/,
-          loader: 'css/locals?modules!postcss',
+          loader: 'css/locals?modules&importLoaders=1!postcss',
         },
         // json
         {
@@ -118,6 +120,8 @@ module.exports = function createConfig(env: Environment, logger: LogGroup): Obje
                 'not ie < 9', // React doesn't support IE8 anyway
               ],
             }),
+            postCssImport(),
+            postCssCssNext(),
           ]),
         },
       }),

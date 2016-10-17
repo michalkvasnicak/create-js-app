@@ -5,6 +5,8 @@ const defineVariables = require('../defineVariables');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const LoggerPlugin = require('../../webpack/LoggerPlugin');
 const path = require('path');
+const postCssImport = require('postcss-import');
+const postCssCssNext = require('postcss-cssnext');
 const webpack = require('webpack');
 
 module.exports = function createConfig(env: Environment, logger: LogGroup): Object {
@@ -62,7 +64,7 @@ module.exports = function createConfig(env: Environment, logger: LogGroup): Obje
           test: /\.css$/,
           loader: ExtractTextPlugin.extract({
             fallbackLoader: 'style',
-            loader: 'css?modules&minimize&-autoprefixer!postcss',
+            loader: 'css?modules&minimize&-autoprefixer&importLoaders=1!postcss',
           }),
         },
         // json
@@ -94,6 +96,11 @@ module.exports = function createConfig(env: Environment, logger: LogGroup): Obje
       // loader options
       new webpack.LoaderOptionsPlugin({
         options: {
+          context: __dirname,
+          eslint: {
+            configFile: settings.eslintrc || require.resolve('eslint-config-js-app'),
+            useEslintrc: false,
+          },
           postcss: () => ([
             autoprefixer({
               browsers: [
@@ -103,6 +110,8 @@ module.exports = function createConfig(env: Environment, logger: LogGroup): Obje
                 'not ie < 9', // React doesn't support IE8 anyway
               ],
             }),
+            postCssImport(),
+            postCssCssNext(),
           ]),
         },
       }),

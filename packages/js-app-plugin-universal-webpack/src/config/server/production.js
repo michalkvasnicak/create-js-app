@@ -4,6 +4,8 @@ const defineVariables = require('../defineVariables');
 const LoggerPlugin = require('../../webpack/LoggerPlugin');
 const nodeExternals = require('webpack-node-externals');
 const path = require('path');
+const postCssImport = require('postcss-import');
+const postCssCssNext = require('postcss-cssnext');
 const webpack = require('webpack');
 
 module.exports = function createConfig(env: Environment, logger: LogGroup): Object {
@@ -70,7 +72,7 @@ module.exports = function createConfig(env: Environment, logger: LogGroup): Obje
         // css
         {
           test: /\.css$/,
-          loader: 'css/locals?modules&-autoprefixer!postcss',
+          loader: 'css/locals?modules&-autoprefixer&importLoaders=1!postcss',
         },
         // json
         {
@@ -103,7 +105,11 @@ module.exports = function createConfig(env: Environment, logger: LogGroup): Obje
       // loader options
       new webpack.LoaderOptionsPlugin({
         options: {
-          // context: __dirname,
+          context: __dirname,
+          eslint: {
+            configFile: settings.eslintrc || require.resolve('eslint-config-js-app'),
+            useEslintrc: false,
+          },
           postcss: () => ([
             autoprefixer({
               browsers: [
@@ -113,6 +119,8 @@ module.exports = function createConfig(env: Environment, logger: LogGroup): Obje
                 'not ie < 9', // React doesn't support IE8 anyway
               ],
             }),
+            postCssImport(),
+            postCssCssNext(),
           ]),
         },
       }),
