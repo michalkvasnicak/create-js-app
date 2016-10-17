@@ -19,8 +19,8 @@ const configurations = {
 function createRunOnceCompiler(webpackConfig: Object): Promise<any> {
   return new Promise((resolve, reject) => {
     try {
-      webpack(webpackConfig, (err) => {
-        if (err) {
+      webpack(webpackConfig, (err, stats) => {
+        if (err || stats.hasErrors()) {
           return reject(err);
         }
 
