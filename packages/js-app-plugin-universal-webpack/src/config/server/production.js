@@ -105,7 +105,7 @@ module.exports = function createConfig(env: Environment, logger: LogGroup): Obje
       // loader options
       new webpack.LoaderOptionsPlugin({
         options: {
-          // context: __dirname,
+          context: __dirname,
           eslint: {
             configFile: settings.eslintrc || require.resolve('eslint-config-js-app'),
             useEslintrc: false,
