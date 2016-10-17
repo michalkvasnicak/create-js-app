@@ -127,7 +127,7 @@ module.exports = {
 
       fs.writeFileSync(
         templatePackageJsonPath,
-        JSON.stringify(packageJson)
+        JSON.stringify(packageJson, null, 2)
       );
 
       console.log(
