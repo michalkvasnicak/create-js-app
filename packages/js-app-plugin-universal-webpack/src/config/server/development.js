@@ -1,5 +1,4 @@
 /* @flow */
-const autoprefixer = require('autoprefixer');
 const defineVariables = require('../defineVariables');
 const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin');
 const findCacheDir = require('find-cache-dir');
@@ -112,16 +111,15 @@ module.exports = function createConfig(env: Environment, logger: LogGroup): Obje
             useEslintrc: false,
           },
           postcss: () => ([
-            autoprefixer({
+            postCssImport(),
+            postCssCssNext({
               browsers: [
                 '>1%',
                 'last 4 versions',
                 'Firefox ESR',
-                'not ie < 9', // React doesn't support IE8 anyway
+                'not ie < 9',
               ],
             }),
-            postCssImport(),
-            postCssCssNext(),
           ]),
         },
       }),

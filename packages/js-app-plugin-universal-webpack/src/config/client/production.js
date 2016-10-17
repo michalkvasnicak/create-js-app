@@ -1,6 +1,5 @@
 /* @flow */
 const AssetsPlugin = require('../../webpack/AssetsPlugin');
-const autoprefixer = require('autoprefixer');
 const defineVariables = require('../defineVariables');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const LoggerPlugin = require('../../webpack/LoggerPlugin');
@@ -102,16 +101,15 @@ module.exports = function createConfig(env: Environment, logger: LogGroup): Obje
             useEslintrc: false,
           },
           postcss: () => ([
-            autoprefixer({
+            postCssImport(),
+            postCssCssNext({
               browsers: [
                 '>1%',
                 'last 4 versions',
                 'Firefox ESR',
-                'not ie < 9', // React doesn't support IE8 anyway
+                'not ie < 9',
               ],
             }),
-            postCssImport(),
-            postCssCssNext(),
           ]),
         },
       }),
