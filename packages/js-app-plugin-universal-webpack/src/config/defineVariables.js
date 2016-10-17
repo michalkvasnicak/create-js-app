@@ -19,7 +19,7 @@ module.exports = function defineVariables(
     (result: Object, key: string) => {
       let value = variables[key];
 
-      if (typeof value !== 'string') {
+      if (typeof value !== 'string' && value !== undefined) {
         value = String(value);
       }
 
