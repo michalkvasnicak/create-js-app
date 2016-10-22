@@ -27,8 +27,10 @@ argv.push('--config', JSON.stringify({
   setupFiles: [/* require.resolve('./jest/polyfills.js') */],
   setupTestFrameworkScriptFile: setupTestsFile,
   testPathIgnorePatterns: ['<rootDir>/(build|docs|node_modules)/'],
-  testEnvironment: 'node',
-  testRegex: '(/__tests__/.*|\\.(test|spec))\\.(js|jsx)$',
+  testEnvironment: argv.indexOf('--node') !== -1 ? 'node' : 'jsdom',
+  testRegex: argv.indexOf('--node') !== -1
+    ? '(/__tests_node__/.*|\\.(test\\.node|spec\\.node))\\.(js|jsx)$'
+    : '(/__tests__/.*|\\.(test|spec))\\.(js|jsx)$',
 }));
 
 jest.run(argv);
