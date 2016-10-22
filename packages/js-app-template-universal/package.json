@@ -1,6 +1,6 @@
 {
   "name": "js-app-template-universal",
-  "version": "0.5.7",
+  "version": "0.6.0",
   "description": "Universal project template used by Create JS App",
   "license": "MIT",
   "author": "Michal Kvasničák (https://twitter.com/@michalkvasnicak)",
@@ -32,7 +32,7 @@
     "react-helmet": "3.1.0"
   },
   "devDependencies": {
-    "create-js-app-scripts": "^0.10.0",
+    "create-js-app-scripts": "^0.11.0",
     "babel-eslint": "7.0.0",
     "eslint": "3.6.1",
     "eslint-config-airbnb": "12.0.0",
