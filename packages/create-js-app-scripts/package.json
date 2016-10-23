@@ -1,6 +1,6 @@
 {
   "name": "create-js-app-scripts",
-  "version": "0.11.0",
+  "version": "0.12.0",
   "description": "Configuration and scripts for Create JS App",
   "license": "MIT",
   "author": "Michal Kvasničák (https://twitter.com/@michalkvasnicak)",
@@ -21,7 +21,7 @@
   ],
   "dependencies": {
     "babel-jest": "16.0.0",
-    "babel-preset-js-app": "^0.3.1",
+    "babel-preset-js-app": "^0.4.0",
     "chalk": "1.1.3",
     "chokidar": "1.6.0",
     "cross-spawn": "4.0.2",

@@ -1,6 +1,6 @@
 {
   "name": "babel-preset-js-app",
-  "version": "0.3.1",
+  "version": "0.4.0",
   "description": "Babel preset used by Create JS App",
   "license": "MIT",
   "author": "Michal Kvasničák (https://twitter.com/@michalkvasnicak)",
