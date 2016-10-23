@@ -1,22 +1,30 @@
 const env = process.env.BABEL_ENV || process.env.NODE_ENV;
 
+// this config is used for tests too so we use babel-preset-env only here :)
+
 module.exports = {
   presets: [
-    require.resolve('babel-preset-react'),
-    // webpack 2 supports es6 modules
     [
-      require.resolve('babel-preset-latest-node6'),
-      {
-        es2015: { modules: false },
-        'object-rest': true,
+      require('babel-preset-env').default, { // eslint-disable-line global-require
+        targets: {
+          node: parseFloat(process.versions.node),
+        },
+        // webpack 2 supports es6 modules
+        modules: false,
       },
     ],
+    // JSX, Flow
+    require.resolve('babel-preset-react'),
   ],
   plugins: [
     // class { handleClick = () => { } }
     require.resolve('babel-plugin-transform-class-properties'),
     // { ...param, completed: true }
     require.resolve('babel-plugin-transform-object-rest-spread'),
+    // necessary for babel-preset-env to work
+    require.resolve('babel-plugin-transform-es2015-destructuring'),
+    // ({ var, ...rest }) => {}
+    require.resolve('babel-plugin-transform-es2015-parameters'),
   ],
 };
 
