@@ -63,7 +63,18 @@ module.exports = function createConfig(env: Environment, logger: LogGroup): Obje
           test: /\.css$/,
           loader: ExtractTextPlugin.extract({
             fallbackLoader: 'style',
-            loader: 'css?modules&minimize&-autoprefixer&importLoaders=1!postcss',
+            loader: [
+              {
+                loader: 'css',
+                query: {
+                  modules: true,
+                  minimize: true,
+                  autoprefixer: false,
+                  importLoaders: 1,
+                },
+              },
+              'postcss',
+            ],
           }),
         },
         // json
@@ -94,6 +105,8 @@ module.exports = function createConfig(env: Environment, logger: LogGroup): Obje
     plugins: [
       // loader options
       new webpack.LoaderOptionsPlugin({
+        debug: false,
+        minimize: true,
         options: {
           context: __dirname,
           eslint: {
@@ -124,8 +137,6 @@ module.exports = function createConfig(env: Environment, logger: LogGroup): Obje
         'process.env': defineVariables(envVariables, { IS_CLIENT: true }),
       }),
 
-      new webpack.optimize.OccurrenceOrderPlugin(),
-
       new webpack.optimize.DedupePlugin(),
 
       new webpack.optimize.UglifyJsPlugin({
@@ -140,6 +151,7 @@ module.exports = function createConfig(env: Environment, logger: LogGroup): Obje
           comments: false,
           screw_ie8: true,
         },
+        sourceMap: true,
       }),
 
       new ExtractTextPlugin({

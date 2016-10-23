@@ -72,7 +72,16 @@ module.exports = function createConfig(env: Environment, logger: LogGroup): Obje
         // css
         {
           test: /\.css$/,
-          loader: 'css/locals?modules&importLoaders=1!postcss',
+          loaders: [
+            {
+              loader: 'css/locals',
+              query: {
+                modules: true,
+                importLoaders: 1,
+              },
+            },
+            'postcss',
+          ],
         },
         // json
         {

@@ -69,7 +69,17 @@ module.exports = function createConfig(env: Environment, logger: LogGroup): Obje
         // css
         {
           test: /\.css$/,
-          loader: 'style!css?modules&importLoaders=1!postcss',
+          loaders: [
+            'style',
+            {
+              loader: 'css',
+              query: {
+                modules: true,
+                importLoaders: true,
+              },
+            },
+            'postcss',
+          ],
         },
         // json
         {
@@ -97,8 +107,6 @@ module.exports = function createConfig(env: Environment, logger: LogGroup): Obje
       tls: 'empty',
     },
     plugins: [
-      new webpack.optimize.OccurrenceOrderPlugin(),
-
       new AssetsPlugin(env),
 
       new webpack.optimize.CommonsChunkPlugin({
