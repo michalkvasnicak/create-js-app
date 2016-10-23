@@ -37,7 +37,7 @@
     "postcss-import": "8.1.0",
     "postcss-cssnext": "2.8.0",
     "promise": "7.1.1",
-    "react-dev-utils": "0.2.1",
+    "react-dev-utils": "0.3.0",
     "source-map-support": "0.4.2",
     "style-loader": "0.13.1",
     "url-loader": "0.5.7",
