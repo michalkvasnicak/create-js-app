@@ -9,8 +9,6 @@ module.exports = {
         targets: {
           node: parseFloat(process.versions.node),
         },
-        // webpack 2 supports es6 modules
-        modules: false,
       },
     ],
     // JSX, Flow
