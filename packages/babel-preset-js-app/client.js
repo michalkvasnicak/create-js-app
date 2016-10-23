@@ -3,9 +3,10 @@ const path = require('path');
 
 module.exports = {
   presets: [
-    require.resolve('babel-preset-react'),
     // webpack 2 supports es6 modules
     [require.resolve('babel-preset-latest'), { es2015: { modules: false } }],
+    // JSX, Flow
+    require.resolve('babel-preset-react'),
   ],
   plugins: [
     // class { handleClick = () => { } }
