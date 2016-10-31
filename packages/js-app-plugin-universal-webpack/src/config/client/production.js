@@ -1,5 +1,6 @@
 /* @flow */
 const AssetsPlugin = require('../../webpack/AssetsPlugin');
+const CompressionPlugin = require('compression-webpack-plugin');
 const defineVariables = require('../defineVariables');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const LoggerPlugin = require('../../webpack/LoggerPlugin');
@@ -160,6 +161,11 @@ module.exports = function createConfig(env: Environment, logger: LogGroup): Obje
       }),
 
       new AssetsPlugin(env),
+
+      new CompressionPlugin({
+        asset: '[path].gz',
+        algorithm: 'gzip',
+      }),
 
       new LoggerPlugin(logger),
     ],
