@@ -1,4 +1,5 @@
 /* @flow */
+const AppCachePlugin = require('appcache-webpack-plugin');
 const AssetsPlugin = require('../../webpack/AssetsPlugin');
 const CompressionPlugin = require('compression-webpack-plugin');
 const defineVariables = require('../defineVariables');
@@ -161,6 +162,8 @@ module.exports = function createConfig(env: Environment, logger: LogGroup): Obje
       }),
 
       new AssetsPlugin(env),
+
+      ...(settings.appCache ? new AppCachePlugin(settings.appCache) : []),
 
       new CompressionPlugin({
         asset: '[path].gz',
