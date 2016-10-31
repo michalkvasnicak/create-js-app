@@ -1,5 +1,7 @@
 /* @flow */
 const fs = require('fs');
+const fsExtra = require('fs-extra');
+const path = require('path');
 
 module.exports = class AssetsPlugin {
   assetsPath: string;
@@ -45,6 +47,8 @@ module.exports = class AssetsPlugin {
           return entryPoints;
         }, {});
 
+      // create build directory just in case
+      fsExtra.mkdirsSync(path.dirname(this.assetsPath));
       fs.writeFileSync(this.assetsPath, JSON.stringify(entryPoints));
     });
   }
