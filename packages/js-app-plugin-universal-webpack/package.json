@@ -1,6 +1,6 @@
 {
   "name": "js-app-plugin-universal-webpack",
-  "version": "0.7.0",
+  "version": "0.7.1",
   "description": "Webpack client side compiler plugin for Create JS App",
   "license": "MIT",
   "author": "Michal Kvasničák (https://twitter.com/@michalkvasnicak)",
