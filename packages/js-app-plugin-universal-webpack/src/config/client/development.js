@@ -1,4 +1,5 @@
 /* @flow */
+const AppCachePlugin = require('appcache-webpack-plugin');
 const AssetsPlugin = require('../../webpack/AssetsPlugin');
 const defineVariables = require('../defineVariables');
 const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin');
@@ -108,6 +109,8 @@ module.exports = function createConfig(env: Environment, logger: LogGroup): Obje
     },
     plugins: [
       new AssetsPlugin(env),
+
+      ...(settings.appCache ? new AppCachePlugin(settings.appCache) : []),
 
       new webpack.optimize.CommonsChunkPlugin({
         name: 'vendor',
