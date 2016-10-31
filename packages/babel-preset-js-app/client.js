@@ -2,6 +2,7 @@ const env = process.env.BABEL_ENV || process.env.NODE_ENV;
 const path = require('path');
 
 module.exports = {
+  compact: false,
   presets: [
     // webpack 2 supports es6 modules
     [require.resolve('babel-preset-latest'), { es2015: { modules: false } }],

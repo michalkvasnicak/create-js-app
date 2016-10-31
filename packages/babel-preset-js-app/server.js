@@ -3,6 +3,7 @@ const env = process.env.BABEL_ENV || process.env.NODE_ENV;
 // this config is used for tests too so we use babel-preset-env only here :)
 
 module.exports = {
+  compact: false,
   presets: [
     [
       require('babel-preset-env').default, { // eslint-disable-line global-require
