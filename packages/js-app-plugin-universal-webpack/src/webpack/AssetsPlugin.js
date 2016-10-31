@@ -15,55 +15,37 @@ module.exports = class AssetsPlugin {
       const publicPath = compiler.options.output.publicPath;
 
       const json = stats.toJson();
+      const entryPoints = {};
 
-      const assetsByChunkName = json.assetsByChunkName;
+      json
+        .chunks
+        .reverse()
+        .filter(chunk => chunk.initial)
+        .forEach((chunk) => {
+          let map;
 
-      // get chunks that has dependencies
-      const dependentChunks = json.chunks.filter(chunk => chunk.parents.length > 0);
+          if (entryPoints[chunk.names[0]]) {
+            map = entryPoints[chunk.names[0]];
+          } else {
+            map = entryPoints[chunk.names[0]] = { css: [], js: [] };
+          }
 
-      const dependencies = dependentChunks
-        .reduce(
-          (assets, chunk) => {
-            const name = chunk.names[0];
-            const acc = assets;
+          const files = Array.isArray(chunk.files) ? chunk.files : [chunk.files];
 
-            if (!assets[name]) {
-              acc[name] = {
-                css: [],
-                js: [],
-              };
+          files.forEach((file) => {
+            const filePath = publicPath + file;
+
+            if (/\.js$/.test(file)) {
+              map.js.push(filePath);
+            } else if (/\.css$/.test(file)) {
+              map.css.push(filePath);
             }
+          });
 
-            // if chunks has parents, add parents first, then chunks
-            chunk.parents.forEach((parent) => {
-              let assetsInChunk = assetsByChunkName[json.chunks[parent].names[0]];
+          return entryPoints;
+        }, {});
 
-              if (!Array.isArray(assetsInChunk)) {
-                assetsInChunk = [assetsInChunk];
-              }
-
-              assetsInChunk.forEach((asset) => {
-                if (/\.js$/.test(asset)) {
-                  acc[name].js.push(publicPath + asset);
-                } else if (/\.css$/.test(asset)) {
-                  acc[name].css.push(publicPath + asset);
-                }
-              });
-            });
-
-            (chunk.files || []).forEach((asset) => {
-              if (/\.js$/.test(asset)) {
-                acc[name].js.push(publicPath + asset);
-              } else if (/\.css$/.test(asset)) {
-                acc[name].css.push(publicPath + asset);
-              }
-            });
-
-            return acc;
-          }, {}
-        );
-
-      fs.writeFileSync(this.assetsPath, JSON.stringify(dependencies));
+      fs.writeFileSync(this.assetsPath, JSON.stringify(entryPoints));
     });
   }
 };
