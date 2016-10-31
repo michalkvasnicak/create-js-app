@@ -163,7 +163,7 @@ module.exports = function createConfig(env: Environment, logger: LogGroup): Obje
 
       new AssetsPlugin(env),
 
-      ...(settings.appCache ? new AppCachePlugin(settings.appCache) : []),
+      ...(settings.appCache ? [new AppCachePlugin(settings.appCache)] : []),
 
       new CompressionPlugin({
         asset: '[path].gz',

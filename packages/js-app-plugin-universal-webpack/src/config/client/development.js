@@ -110,7 +110,7 @@ module.exports = function createConfig(env: Environment, logger: LogGroup): Obje
     plugins: [
       new AssetsPlugin(env),
 
-      ...(settings.appCache ? new AppCachePlugin(settings.appCache) : []),
+      ...(settings.appCache ? [new AppCachePlugin(settings.appCache)] : []),
 
       new webpack.optimize.CommonsChunkPlugin({
         name: 'vendor',
