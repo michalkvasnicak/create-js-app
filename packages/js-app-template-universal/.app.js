@@ -11,17 +11,23 @@ module.exports = {
   },
   plugins: [require('js-app-plugin-universal-webpack')],
   settings: {
-    // settings for assets-webpack-plugin
-    appCache: {
-      output: 'manifest.appcache',
-    },
     client: {
       index: path.resolve(__dirname, './src/client/index.js'),
       bundleDir: path.resolve(__dirname, './build/client'),
+      webpackPlugins: {
+        development: [
+          /* (configuration: Configuration, variables: Object) => typeof WebpackPlugin */
+        ],
+        production: [],
+      },
     },
     server: {
       index: path.resolve(__dirname, './src/server/index.js'),
       bundleDir: path.resolve(__dirname, './build/server'),
+      webpackPlugins: {
+        development: [],
+        production: [],
+      },
     }
-  }
+  },
 };

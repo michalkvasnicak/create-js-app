@@ -1,5 +1,4 @@
 /* @flow */
-const AppCachePlugin = require('appcache-webpack-plugin');
 const AssetsPlugin = require('../../webpack/AssetsPlugin');
 const defineVariables = require('../defineVariables');
 const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin');
@@ -16,6 +15,20 @@ module.exports = function createConfig(env: Environment, logger: LogGroup): Obje
     env: envVariables,
     settings,
   }: ClientWebpackPluginConfiguration = env.getConfiguration();
+
+  const clientSettings = settings.client;
+  let plugins: (() => any)[] = [];
+
+  const pluginsInstatiators = clientSettings.webpackPlugins
+    && clientSettings.webpackPlugins.development;
+
+  if (Array.isArray(pluginsInstatiators)) {
+    plugins = pluginsInstatiators;
+  }
+
+  const variablesToDefine = {
+    'process.env': defineVariables(envVariables, { IS_CLIENT: true }),
+  };
 
   return {
     devtool: 'eval',
@@ -110,8 +123,6 @@ module.exports = function createConfig(env: Environment, logger: LogGroup): Obje
     plugins: [
       new AssetsPlugin(env),
 
-      ...(settings.appCache ? [new AppCachePlugin(settings.appCache)] : []),
-
       new webpack.optimize.CommonsChunkPlugin({
         name: 'vendor',
         minChunks: module => /node_modules/.test(module.resource),
@@ -140,9 +151,7 @@ module.exports = function createConfig(env: Environment, logger: LogGroup): Obje
       }),
 
       // define global variable
-      new webpack.DefinePlugin({
-        'process.env': defineVariables(envVariables, { IS_CLIENT: true }),
-      }),
+      new webpack.DefinePlugin(variablesToDefine),
 
       // case sensitive paths
       new CaseSensitivePathsPlugin(),
@@ -155,6 +164,14 @@ module.exports = function createConfig(env: Environment, logger: LogGroup): Obje
 
       // Logger plugin
       new LoggerPlugin(logger),
+
+      // Custom plugins
+      ...(plugins.map(
+        pluginInstantiator => pluginInstantiator(
+          env.getConfiguration(),
+          variablesToDefine
+        ))
+      ),
     ],
   };
 };

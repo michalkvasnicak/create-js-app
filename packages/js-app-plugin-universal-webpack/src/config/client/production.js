@@ -1,5 +1,4 @@
 /* @flow */
-const AppCachePlugin = require('appcache-webpack-plugin');
 const AssetsPlugin = require('../../webpack/AssetsPlugin');
 const CompressionPlugin = require('compression-webpack-plugin');
 const defineVariables = require('../defineVariables');
@@ -12,6 +11,20 @@ const webpack = require('webpack');
 
 module.exports = function createConfig(env: Environment, logger: LogGroup): Object {
   const { env: envVariables, settings }: ClientWebpackPluginConfiguration = env.getConfiguration();
+
+  const clientSettings = settings.client;
+  let plugins: (() => any)[] = [];
+
+  const pluginsInstatiators = clientSettings.webpackPlugins
+    && clientSettings.webpackPlugins.production;
+
+  if (Array.isArray(pluginsInstatiators)) {
+    plugins = pluginsInstatiators;
+  }
+
+  const variablesToDefine = {
+    'process.env': defineVariables(envVariables, { IS_CLIENT: true }),
+  };
 
   return {
     bail: true,
@@ -135,9 +148,7 @@ module.exports = function createConfig(env: Environment, logger: LogGroup): Obje
       }),
 
       // define global variable
-      new webpack.DefinePlugin({
-        'process.env': defineVariables(envVariables, { IS_CLIENT: true }),
-      }),
+      new webpack.DefinePlugin(variablesToDefine),
 
       new webpack.optimize.DedupePlugin(),
 
@@ -163,14 +174,20 @@ module.exports = function createConfig(env: Environment, logger: LogGroup): Obje
 
       new AssetsPlugin(env),
 
-      ...(settings.appCache ? [new AppCachePlugin(settings.appCache)] : []),
-
       new CompressionPlugin({
         asset: '[path].gz',
         algorithm: 'gzip',
       }),
 
       new LoggerPlugin(logger),
+
+      // Custom plugins
+      ...(plugins.map(
+        pluginInstantiator => pluginInstantiator(
+          env.getConfiguration(),
+          variablesToDefine
+        ))
+      ),
     ],
   };
 };

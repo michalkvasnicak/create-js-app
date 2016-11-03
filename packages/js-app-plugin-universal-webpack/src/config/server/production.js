@@ -10,6 +10,20 @@ const webpack = require('webpack');
 module.exports = function createConfig(env: Environment, logger: LogGroup): Object {
   const { env: envVariables, settings }: ServerWebpackPluginConfiguration = env.getConfiguration();
 
+  const serverSettings = settings.server;
+  let plugins: (() => any)[] = [];
+
+  const pluginsInstatiators = serverSettings.webpackPlugins
+    && serverSettings.webpackPlugins.production;
+
+  if (Array.isArray(pluginsInstatiators)) {
+    plugins = pluginsInstatiators;
+  }
+
+  const variablesToDefine = {
+    'process.env': defineVariables(envVariables, { IS_SERVER: true }),
+  };
+
   return {
     bail: true,
     devtool: 'source-map',
@@ -134,13 +148,19 @@ module.exports = function createConfig(env: Environment, logger: LogGroup): Obje
       }),
 
       // define global variable
-      new webpack.DefinePlugin({
-        'process.env': defineVariables(envVariables, { IS_SERVER: true }),
-      }),
+      new webpack.DefinePlugin(variablesToDefine),
 
       new webpack.optimize.LimitChunkCountPlugin({ maxChunks: 1 }),
 
       new LoggerPlugin(logger),
+
+      // Custom plugins
+      ...(plugins.map(
+        pluginInstantiator => pluginInstantiator(
+          env.getConfiguration(),
+          variablesToDefine
+        ))
+      ),
     ],
   };
 };
