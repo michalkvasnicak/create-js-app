@@ -14,12 +14,21 @@ module.exports = function createConfig(env: Environment, logger: LogGroup): Obje
 
   const clientSettings = settings.client;
   let plugins: (() => any)[] = [];
+  let decorateLoaders: (loaders: Array<any>) => any = loaders => loaders;
 
   const pluginsInstatiators = clientSettings.webpackPlugins
     && clientSettings.webpackPlugins.production;
 
   if (Array.isArray(pluginsInstatiators)) {
     plugins = pluginsInstatiators;
+  }
+
+  const loadersDecorator = clientSettings.webpack
+    && clientSettings.webpack.loadersDecorator
+    && clientSettings.webpack.loadersDecorator.production;
+
+  if (typeof loadersDecorator === 'function') {
+    decorateLoaders = loadersDecorator;
   }
 
   const variablesToDefine = {
@@ -50,7 +59,7 @@ module.exports = function createConfig(env: Environment, logger: LogGroup): Obje
       ],
     },
     module: {
-      loaders: [
+      loaders: decorateLoaders([
         {
           enforce: 'pre',
           test: /\.(js|jsx)$/,
@@ -110,7 +119,7 @@ module.exports = function createConfig(env: Environment, logger: LogGroup): Obje
           test: /\.(ico|jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2)(\?.*)?$/,
           loader: 'file',
         },
-      ],
+      ]),
     },
     node: {
       fs: 'empty',

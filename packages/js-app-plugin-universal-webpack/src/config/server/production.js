@@ -12,12 +12,21 @@ module.exports = function createConfig(env: Environment, logger: LogGroup): Obje
 
   const serverSettings = settings.server;
   let plugins: (() => any)[] = [];
+  let decorateLoaders: (loaders: Array<any>) => any = loaders => loaders;
 
   const pluginsInstatiators = serverSettings.webpackPlugins
     && serverSettings.webpackPlugins.production;
 
   if (Array.isArray(pluginsInstatiators)) {
     plugins = pluginsInstatiators;
+  }
+
+  const loadersDecorator = serverSettings.webpack
+    && serverSettings.webpack.loadersDecorator
+    && serverSettings.webpack.loadersDecorator.production;
+
+  if (typeof loadersDecorator === 'function') {
+    decorateLoaders = loadersDecorator;
   }
 
   const variablesToDefine = {
@@ -59,7 +68,7 @@ module.exports = function createConfig(env: Environment, logger: LogGroup): Obje
       ],
     },
     module: {
-      loaders: [
+      loaders: decorateLoaders([
         {
           enforce: 'pre',
           test: /\.(js|jsx)$/,
@@ -119,7 +128,7 @@ module.exports = function createConfig(env: Environment, logger: LogGroup): Obje
             emitFile: false,
           },
         },
-      ],
+      ]),
     },
     node: {
       console: true,
