@@ -17,6 +17,7 @@ module.exports = function createConfig(env: Environment, logger: LogGroup): Obje
   const serverSettings = settings.server;
   let plugins: (() => any)[] = [];
   let decorateLoaders: (loaders: Array<any>) => any = loaders => loaders;
+  let whitelistedExternals = [];
 
   const pluginsInstatiators = serverSettings.webpackPlugins
     && serverSettings.webpackPlugins.development;
@@ -31,6 +32,14 @@ module.exports = function createConfig(env: Environment, logger: LogGroup): Obje
 
   if (typeof loadersDecorator === 'function') {
     decorateLoaders = loadersDecorator;
+  }
+
+  const externalsWhitelist = serverSettings.webpack
+    && serverSettings.webpack.externalsWhitelist
+    && serverSettings.webpack.externalsWhitelist.development;
+
+  if (Array.isArray(externalsWhitelist)) {
+    whitelistedExternals = externalsWhitelist;
   }
 
   const variablesToDefine = {
@@ -50,6 +59,7 @@ module.exports = function createConfig(env: Environment, logger: LogGroup): Obje
         /\.(svg|png|jpg|jpeg|gif|ico)$/,
         /\.(mp4|mp3|ogg|swf|webp)$/,
         /\.(css|scss|sass|sss|less)$/,
+        ...whitelistedExternals,
       ],
     })],
     output: {
