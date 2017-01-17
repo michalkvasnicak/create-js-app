@@ -1,6 +1,6 @@
 {
   "name": "js-app-template-universal",
-  "version": "0.12.4",
+  "version": "0.12.5",
   "description": "Universal project template used by Create JS App",
   "license": "MIT",
   "author": "Michal Kvasničák (https://twitter.com/@michalkvasnicak)",
@@ -45,7 +45,7 @@
     "eslint-plugin-jsx-a11y": "2.2.3",
     "eslint-plugin-react": "6.7.1",
     "flow-bin": "0.35.0",
-    "js-app-plugin-universal-webpack": "^0.13.4",
+    "js-app-plugin-universal-webpack": "^0.13.5",
     "react-test-renderer": "15.4.0"
   },
   "scripts": {
