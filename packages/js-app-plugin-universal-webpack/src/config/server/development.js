@@ -80,64 +80,97 @@ module.exports = function createConfig(env: Environment, logger: LogGroup): Obje
       ],
     },
     module: {
-      loaders: decorateLoaders([
+      rules: decorateLoaders([
+        // eslint
         {
           enforce: 'pre',
           test: /\.(js|jsx)$/,
-          loader: 'eslint-loader',
+          use: [
+            {
+              loader: 'eslint-loader',
+              options: {
+                configFile: settings.eslintrc || require.resolve('eslint-config-js-app'),
+                useEslintrc: false,
+              },
+            },
+          ],
           include: settings.appSrc,
         },
+
         // js
         {
           test: /\.(js|jsx)$/,
           include: settings.appSrc,
-          loader: 'babel-loader',
-          query: {
-            babelrc: false,
-            presets: [
-              settings.babelrc || require.resolve('babel-preset-js-app/server'),
-            ],
-            cacheDirectory: findCacheDir({
-              name: 'create-js-app-scripts',
-            }),
-          },
+          use: [
+            {
+              loader: 'babel-loader',
+              options: {
+                babelrc: false,
+                presets: [
+                  settings.babelrc || require.resolve('babel-preset-js-app/server'),
+                ],
+                cacheDirectory: findCacheDir({
+                  name: 'create-js-app-scripts',
+                }),
+              },
+            },
+          ],
         },
+
         // css
         {
           test: /\.css$/,
-          loaders: [
+          use: [
+            { loader: 'style-loader' },
             {
               loader: 'css-loader/locals',
-              query: {
+              options: {
+                autoprefixer: false,
                 modules: true,
-                importLoaders: 1,
-                localIdentName: '[path][name]__[local]--[hash:base64:5]',
+                importLoaders: true,
+                localIdentName: '[name]__[local]__[hash:base64:5]',
               },
             },
-            'postcss-loader',
+            {
+              loader: 'postcss-loader',
+              options: {
+                plugins: () => [
+                  postCssImport(),
+                  postCssCssNext({
+                    browsers: [
+                      '>1%',
+                      'last 4 versions',
+                      'Firefox ESR',
+                      'not ie < 9',
+                    ],
+                  }),
+                ],
+              },
+            },
           ],
         },
+
         // json
         {
           test: /\.json$/,
-          loader: 'json-loader',
+          use: [
+            { loader: 'json-loader' },
+          ],
         },
+
         // url
         {
           test: /\.(mp4|webm|wav|mp3|m4a|aac|oga)(\?.*)?$/,
-          loader: 'url-loader',
-          query: {
-            limit: 10000,
-            emitFile: false,
-          },
+          use: [
+            { loader: 'url-loader', options: { emitFile: false, limit: 10000 } },
+          ],
         },
         // file
         {
           test: /\.(ico|jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2)(\?.*)?$/,
-          loader: 'file-loader',
-          query: {
-            emitFile: false,
-          },
+          use: [
+            { loader: 'file-loader', options: { emitFalse: false } },
+          ],
         },
       ]),
     },
@@ -145,28 +178,6 @@ module.exports = function createConfig(env: Environment, logger: LogGroup): Obje
       console: true,
     },
     plugins: [
-      // loader options
-      new webpack.LoaderOptionsPlugin({
-        options: {
-          context: __dirname,
-          eslint: {
-            configFile: settings.eslintrc || require.resolve('eslint-config-js-app'),
-            useEslintrc: false,
-          },
-          postcss: () => ([
-            postCssImport(),
-            postCssCssNext({
-              browsers: [
-                '>1%',
-                'last 4 versions',
-                'Firefox ESR',
-                'not ie < 9',
-              ],
-            }),
-          ]),
-        },
-      }),
-
       // define global variable
       new webpack.DefinePlugin(variablesToDefine),
 

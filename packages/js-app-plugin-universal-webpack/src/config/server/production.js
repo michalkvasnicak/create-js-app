@@ -78,66 +78,94 @@ module.exports = function createConfig(env: Environment, logger: LogGroup): Obje
       ],
     },
     module: {
-      loaders: decorateLoaders([
+      rules: decorateLoaders([
+        // eslint
         {
           enforce: 'pre',
           test: /\.(js|jsx)$/,
-          loader: 'eslint-loader',
+          use: [
+            {
+              loader: 'eslint-loader',
+              options: {
+                configFile: settings.eslintrc || require.resolve('eslint-config-js-app'),
+                useEslintrc: false,
+              },
+            },
+          ],
           include: settings.appSrc,
-          query: {
-            configFile: settings.eslintrc,
-            useEslintrc: false,
-          },
         },
+
         // js
         {
           test: /\.(js|jsx)$/,
           include: settings.appSrc,
-          loader: 'babel-loader',
-          query: {
-            babelrc: false,
-            presets: [
-              settings.babelrc || require.resolve('babel-preset-js-app/server'),
-            ],
-          },
+          use: [
+            {
+              loader: 'babel-loader',
+              options: {
+                babelrc: false,
+                presets: [
+                  settings.babelrc || require.resolve('babel-preset-js-app/server'),
+                ],
+              },
+            },
+          ],
         },
+
         // css
         {
           test: /\.css$/,
-          loaders: [
+          use: [
             {
               loader: 'css-loader/locals',
-              query: {
+              options: {
                 modules: true,
+                minimize: true,
                 autoprefixer: false,
                 importLoaders: 1,
-                localIdentName: '[path][name]__[local]--[hash:base64:5]',
+                localIdentName: '[hash:base64]',
               },
             },
-            'postcss',
+            {
+              loader: 'postcss-loader',
+              options: {
+                plugins: () => [
+                  postCssImport(),
+                  postCssCssNext({
+                    browsers: [
+                      '>1%',
+                      'last 4 versions',
+                      'Firefox ESR',
+                      'not ie < 9',
+                    ],
+                  }),
+                ],
+              },
+            },
           ],
         },
+
         // json
         {
           test: /\.json$/,
-          loader: 'json-loader',
+          use: [
+            { loader: 'json-loader' },
+          ],
         },
+
         // url
         {
           test: /\.(mp4|webm|wav|mp3|m4a|aac|oga)(\?.*)?$/,
-          loader: 'url-loader',
-          query: {
-            limit: 10000,
-            emitFile: false,
-          },
+          use: [
+            { loader: 'url-loader', options: { emitFile: false, limit: 10000 } },
+          ],
         },
         // file
         {
           test: /\.(ico|jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2)(\?.*)?$/,
-          loader: 'file-loader',
-          query: {
-            emitFile: false,
-          },
+          use: [
+            { loader: 'file-loader', options: { emitFile: false } },
+          ],
         },
       ]),
     },
@@ -145,28 +173,6 @@ module.exports = function createConfig(env: Environment, logger: LogGroup): Obje
       console: true,
     },
     plugins: [
-      // loader options
-      new webpack.LoaderOptionsPlugin({
-        options: {
-          context: __dirname,
-          eslint: {
-            configFile: settings.eslintrc || require.resolve('eslint-config-js-app'),
-            useEslintrc: false,
-          },
-          postcss: () => ([
-            postCssImport(),
-            postCssCssNext({
-              browsers: [
-                '>1%',
-                'last 4 versions',
-                'Firefox ESR',
-                'not ie < 9',
-              ],
-            }),
-          ]),
-        },
-      }),
-
       // define global variable
       new webpack.DefinePlugin(variablesToDefine),
 
