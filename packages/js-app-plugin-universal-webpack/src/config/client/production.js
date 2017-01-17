@@ -63,7 +63,7 @@ module.exports = function createConfig(env: Environment, logger: LogGroup): Obje
         {
           enforce: 'pre',
           test: /\.(js|jsx)$/,
-          loader: 'eslint',
+          loader: 'eslint-loader',
           include: settings.appSrc,
           query: {
             configFile: settings.eslintrc,
@@ -74,7 +74,7 @@ module.exports = function createConfig(env: Environment, logger: LogGroup): Obje
         {
           test: /\.(js|jsx)$/,
           include: settings.appSrc,
-          loader: 'babel',
+          loader: 'babel-loader',
           query: {
             babelrc: false,
             presets: [
@@ -86,30 +86,31 @@ module.exports = function createConfig(env: Environment, logger: LogGroup): Obje
         {
           test: /\.css$/,
           loader: ExtractTextPlugin.extract({
-            fallbackLoader: 'style',
+            fallbackLoader: 'style-loader',
             loader: [
               {
-                loader: 'css',
+                loader: 'css-loader',
                 query: {
                   modules: true,
                   minimize: true,
                   autoprefixer: false,
                   importLoaders: 1,
+                  localIdentName: '[path][name]__[local]--[hash:base64:5]',
                 },
               },
-              'postcss',
+              'postcss-loader',
             ],
           }),
         },
         // json
         {
           test: /\.json$/,
-          loader: 'json',
+          loader: 'json-loader',
         },
         // url
         {
           test: /\.(mp4|webm|wav|mp3|m4a|aac|oga)(\?.*)?$/,
-          loader: 'url',
+          loader: 'url-loader',
           query: {
             limit: 10000,
           },
@@ -117,7 +118,7 @@ module.exports = function createConfig(env: Environment, logger: LogGroup): Obje
         // file
         {
           test: /\.(ico|jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2)(\?.*)?$/,
-          loader: 'file',
+          loader: 'file-loader',
         },
       ]),
     },
