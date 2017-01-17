@@ -20,7 +20,8 @@
     "README.md",
     "flow",
     "public",
-    "src"
+    "src",
+    "postcss.config.js"
   ],
   "dependencies": {
     "koa": "2.0",
