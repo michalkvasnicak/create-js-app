@@ -7,7 +7,7 @@ const LoggerPlugin = require('../../webpack/LoggerPlugin');
 const path = require('path');
 const postCssImport = require('postcss-import');
 const postCssCssNext = require('postcss-cssnext');
-const postCssApply= require('postcss-apply');
+const postCssApply = require('postcss-apply');
 const webpack = require('webpack');
 
 module.exports = function createConfig(env: Environment, logger: LogGroup): Object {
@@ -120,7 +120,7 @@ module.exports = function createConfig(env: Environment, logger: LogGroup): Obje
                         '>1%',
                         'last 4 versions',
                         'Firefox ESR',
-                        'not ie < 9',
+                        'not ie < 10',
                       ],
                     }),
                     postCssApply(),

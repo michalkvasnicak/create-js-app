@@ -141,7 +141,7 @@ module.exports = function createConfig(env: Environment, logger: LogGroup): Obje
                       '>1%',
                       'last 4 versions',
                       'Firefox ESR',
-                      'not ie < 9',
+                      'not ie < 10',
                     ],
                   }),
                   postCssApply(),
