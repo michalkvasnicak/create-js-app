@@ -121,7 +121,6 @@ module.exports = function createConfig(env: Environment, logger: LogGroup): Obje
         {
           test: /\.css$/,
           use: [
-            { loader: 'style-loader' },
             {
               loader: 'css-loader/locals',
               options: {
@@ -181,7 +180,7 @@ module.exports = function createConfig(env: Environment, logger: LogGroup): Obje
       // define global variable
       new webpack.DefinePlugin(variablesToDefine),
 
-      new webpack.NoErrorsPlugin(),
+      new webpack.NoEmitOnErrorsPlugin(),
 
       new webpack.optimize.LimitChunkCountPlugin({ maxChunks: 1 }),
 
