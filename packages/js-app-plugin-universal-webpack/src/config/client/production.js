@@ -159,8 +159,6 @@ module.exports = function createConfig(env: Environment, logger: LogGroup): Obje
       // define global variable
       new webpack.DefinePlugin(variablesToDefine),
 
-      new webpack.optimize.DedupePlugin(),
-
       new webpack.optimize.UglifyJsPlugin({
         compress: {
           screw_ie8: true, // React doesn't support IE8
