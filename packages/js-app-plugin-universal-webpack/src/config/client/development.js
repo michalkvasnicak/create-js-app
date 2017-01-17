@@ -7,6 +7,7 @@ const LoggerPlugin = require('../../webpack/LoggerPlugin');
 const path = require('path');
 const postCssImport = require('postcss-import');
 const postCssCssNext = require('postcss-cssnext');
+const postCssApply = require('postcss-apply');
 const WatchMissingNodeModulesPlugin = require('react-dev-utils/WatchMissingNodeModulesPlugin');
 const webpack = require('webpack');
 
@@ -127,6 +128,7 @@ module.exports = function createConfig(env: Environment, logger: LogGroup): Obje
                       'not ie < 9',
                     ],
                   }),
+                  postCssApply(),
                 ],
               },
             },
