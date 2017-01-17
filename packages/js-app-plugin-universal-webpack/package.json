@@ -1,6 +1,6 @@
 {
   "name": "js-app-plugin-universal-webpack",
-  "version": "0.13.1",
+  "version": "0.13.2",
   "description": "Webpack client side compiler plugin for Create JS App",
   "license": "MIT",
   "author": "Michal Kvasničák (https://twitter.com/@michalkvasnicak)",
@@ -33,6 +33,7 @@
     "json-loader": "0.5.4",
     "object-assign": "4.1.1",
     "node-fetch": "1.6.3",
+    "postcss-apply": "0.4.0",
     "postcss-loader": "1.2.2",
     "postcss-import": "8.1.0",
     "postcss-cssnext": "2.9.0",
