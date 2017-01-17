@@ -102,7 +102,7 @@ module.exports = function createConfig(env: Environment, logger: LogGroup): Obje
             loader: [
               {
                 loader: 'css-loader',
-                options: {
+                query: {
                   modules: true,
                   minimize: true,
                   autoprefixer: false,
@@ -112,7 +112,7 @@ module.exports = function createConfig(env: Environment, logger: LogGroup): Obje
               },
               {
                 loader: 'postcss-loader',
-                options: {
+                query: {
                   plugins: () => [
                     postCssImport(),
                     postCssCssNext({
