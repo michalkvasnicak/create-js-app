@@ -23,7 +23,9 @@ argv.push('--config', JSON.stringify({
     '^.+\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$': require.resolve('./jest/file.stub.js'),
     '^.+\\.css$': require.resolve('./jest/css.stub.js'),
   },
-  scriptPreprocessor: require.resolve('./jest/transform.js'),
+  transform: {
+    '.js': require.resolve('./jest/transform.js'),
+  },
   setupFiles: [/* require.resolve('./jest/polyfills.js') */],
   setupTestFrameworkScriptFile: setupTestsFile,
   testPathIgnorePatterns: ['<rootDir>/(build|docs|node_modules)/'],
