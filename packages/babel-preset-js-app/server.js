@@ -7,23 +7,17 @@ module.exports = {
   presets: [
     [
       require('babel-preset-env').default, { // eslint-disable-line global-require
+        debug: true,
+        useBuiltIns: true,
         targets: {
-          node: parseFloat(process.versions.node),
+          node: 'current',
         },
       },
     ],
-    // JSX, Flow
-    require.resolve('babel-preset-react'),
   ],
   plugins: [
-    // class { handleClick = () => { } }
-    require.resolve('babel-plugin-transform-class-properties'),
     // { ...param, completed: true }
     require.resolve('babel-plugin-transform-object-rest-spread'),
-    // necessary for babel-preset-env to work
-    require.resolve('babel-plugin-transform-es2015-destructuring'),
-    // ({ var, ...rest }) => {}
-    require.resolve('babel-plugin-transform-es2015-parameters'),
   ],
 };
 

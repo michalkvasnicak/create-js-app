@@ -1,32 +1,27 @@
 const env = process.env.BABEL_ENV || process.env.NODE_ENV;
-const path = require('path');
 
 module.exports = {
   compact: false,
   presets: [
-    // webpack 2 supports es6 modules
-    [require.resolve('babel-preset-latest'), { es2015: { modules: false } }],
-    // JSX, Flow
-    require.resolve('babel-preset-react'),
+    [require.resolve('babel-preset-env'), {
+      modules: false, // webpack 2
+      targets: {
+        browsers: [
+          'last 2 Chrome versions',
+          'last 2 Firefox versions',
+          'last 2 Edge versions',
+          'last 2 Opera versions',
+          'last 2 Safari versions',
+          'last 2 iOS versions',
+          'Explorer >= 11',
+        ],
+      },
+      useBuiltIns: true,
+    }],
   ],
   plugins: [
-    // class { handleClick = () => { } }
-    require.resolve('babel-plugin-transform-class-properties'),
     // { ...param, completed: true }
     require.resolve('babel-plugin-transform-object-rest-spread'),
-    // function* () { yield 42; yield 43; }
-    [require.resolve('babel-plugin-transform-regenerator'), {
-      // Async functions are converted to generators by babel-preset-latest
-      async: false,
-    }],
-    // Polyfills the runtime needed for async/await and generators
-    [require.resolve('babel-plugin-transform-runtime'), {
-      helpers: false,
-      polyfill: false,
-      regenerator: true,
-      // Resolve the Babel runtime relative to the config.
-      moduleName: path.dirname(require.resolve('babel-runtime/package')),
-    }],
   ],
 };
 
