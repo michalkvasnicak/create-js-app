@@ -20,9 +20,7 @@ const airbnbConfig = Object.assign(
         experimentalObjectRestSpread: true,
       },
     },
-    // temporarily disable flowtype-errors plugin
-    // because it is messing with RAM
-    plugins: ['flowtype'/* , 'flowtype-errors'*/],
+    plugins: ['flowtype'],
     // disable import rules temporarily
     rules: Object.assign(
       {},

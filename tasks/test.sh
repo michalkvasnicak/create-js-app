@@ -57,10 +57,10 @@ yarn install
 lerna bootstrap
 
 # run lint
-npm run lint
+yarn lint
 
 # run flow
-npm run flow
+yarn flow
 lerna run flow
 
 # now substitute paths to packages
@@ -83,10 +83,10 @@ node packages/create-js-app/index.js create test-app --template=$js_app_template
 cd test-app
 
 # lint project
-npm run lint
+yarn lint
 
 # try to flow type check
-npm run flow
+yarn flow
 lerna run flow
 
 # run tests
@@ -94,7 +94,7 @@ CI=true yarn test
 CI=true lerna run test
 
 # try to build production build
-npm run build
+yarn build
 
 # cleanup
 cleanup
