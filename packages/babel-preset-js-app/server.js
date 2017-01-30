@@ -13,6 +13,7 @@ module.exports = {
         },
       },
     ],
+    require.resolve('babel-preset-react'),
   ],
   plugins: [
     // { ...param, completed: true }

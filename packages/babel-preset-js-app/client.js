@@ -18,6 +18,7 @@ module.exports = {
       },
       useBuiltIns: true,
     }],
+    require.resolve('babel-preset-react'),
   ],
   plugins: [
     // { ...param, completed: true }
