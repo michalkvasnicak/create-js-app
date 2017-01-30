@@ -6,8 +6,7 @@ module.exports = {
   compact: false,
   presets: [
     [
-      require('babel-preset-env').default, { // eslint-disable-line global-require
-        debug: true,
+      require.resolve('babel-preset-env'), {
         useBuiltIns: true,
         targets: {
           node: 'current',

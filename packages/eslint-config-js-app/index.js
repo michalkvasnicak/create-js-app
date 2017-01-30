@@ -31,6 +31,13 @@ const airbnbConfig = Object.assign(
         // 'flowtype-errors/show-errors': 'error', todo enable when problems are solved
         'new-cap': 'off',
         'react/jsx-filename-extension': 'off',
+        'comma-dangle': ['error', {
+          arrays: 'always-multiline',
+          objects: 'always-multiline',
+          imports: 'always-multiline',
+          exports: 'always-multiline',
+          functions: 'ignore',
+        }],
       }
     ),
     settings: {

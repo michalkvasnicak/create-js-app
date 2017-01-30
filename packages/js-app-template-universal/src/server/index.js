@@ -1,9 +1,10 @@
 /* @flow */
-import App from '../shared/App';
 import convert from 'koa-convert';
 import Koa from 'koa';
 import React from 'react';
 import staticCache from 'koa-static-cache';
+
+import App from '../shared/App';
 import renderHtml from './renderHtml';
 import { ASSETS_DIR, PUBLIC_DIR, SERVER_PORT } from './config';
 
@@ -35,7 +36,7 @@ app.use(
     ctx.status = 200; // eslint-disable-line no-param-reassign
     ctx.body = renderHtml(<App />); // eslint-disable-line no-param-reassign
 
-    return await next();
+    return next();
   }
 );
 

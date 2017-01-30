@@ -58,7 +58,7 @@ const plugin: Plugin = (
         createRunOnceCompiler(serverConfig),
       ];
 
-      return await Promise.all(compilers);
+      return Promise.all(compilers);
     },
 
     async start() {
