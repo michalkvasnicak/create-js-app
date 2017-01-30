@@ -1,17 +1,17 @@
 /* @flow */
 
+import fs from 'fs';
+import { ASSETS_PATH, IS_DEVELOPMENT } from './config';
+
 type AssetsMap = {|
   scripts: string[],
   styles: string[]
 |};
 
 type Chunk = {
-  css: [string],
-  js: [string]
+  css: string[],
+  js: string[]
 };
-
-import fs from 'fs';
-import { ASSETS_PATH, IS_DEVELOPMENT } from './config';
 
 let assetsMap: AssetsMap = {
   scripts: [],
