@@ -3,7 +3,7 @@
 Create any javascript application with no build configuration using
 your own or predefined project templates and build plugins.
 
-This project is highly influenced by the (https://github.com/facebookincubator/create-react-app)[Create React App]. I thank its authors.
+This project is highly influenced by the [Create React App](https://github.com/facebookincubator/create-react-app). I thank its authors.
 
 ## TL;DR
 
@@ -14,7 +14,7 @@ create-js-app create my-app
 cd my-app/
 npm start
 ```
-This will open your application in a browser (or you can navigate to (http://localhost:3000)[http://localhost:3000]).
+This will open your application in a browser (or you can navigate to [http://localhost:3000](http://localhost:3000]).
 
 When you’re ready to deploy to production, create a minified bundle with `npm run build`.
 
@@ -42,7 +42,7 @@ This command will install `create-js-app` globally.
 
 ## Getting started
 
-You have two options of how to create an application. The first one is creating an application using (https://github.com/michalkvasnicak/create-js-app/tree/master/packages/js-app-template-universal)[default project template] (which is using (https://github.com/michalkvasnicak/create-js-app/tree/master/packages/js-app-plugin-universal-webpack)[js-app-plugin-universal-webpack] under the hood) and the second is creating an application using a template of your own choosing.
+You have two options of how to create an application. The first one is creating an application using [default project template](https://github.com/michalkvasnicak/create-js-app/tree/master/packages/js-app-template-universal) (which is using [js-app-plugin-universal-webpack](https://github.com/michalkvasnicak/create-js-app/tree/master/packages/js-app-plugin-universal-webpack) under the hood) and the second is creating an application using a template of your own choosing.
 
 ### 1. Creating an application
 
