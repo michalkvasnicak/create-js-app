@@ -20,6 +20,10 @@ module.exports = {
     require.resolve('babel-plugin-transform-class-properties'),
     // { ...param, completed: true }
     require.resolve('babel-plugin-transform-object-rest-spread'),
+    [require.resolve('react-loadable/babel'), { webpack: true, babel: true }],
+    require.resolve('babel-plugin-idx'),
+    require.resolve('babel-plugin-syntax-dynamic-import'),
+    require.resolve('babel-plugin-dynamic-import-node'),
   ],
 };
 
