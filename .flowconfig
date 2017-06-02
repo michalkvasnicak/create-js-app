@@ -6,6 +6,7 @@
 .*/node_modules/fbjs/.*
 .*/node_modules/create-js-app-scripts/.*
 .*/packages/js-app-template-universal/.*
+.*/node_modules/conventional-changelog-core/test/.*
 
 [libs]
 
