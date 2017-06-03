@@ -1,19 +1,25 @@
 {
   "private": true,
   "devDependencies": {
-    "babel-eslint": "7.1.1",
-    "eslint": "3.14.1",
-    "eslint-config-airbnb": "14.0.0",
-    "eslint-config-js-app": "file:packages/eslint-config-js-app",
-    "eslint-plugin-flowtype": "2.30.0",
-    "eslint-plugin-import": "2.2.0",
-    "eslint-plugin-jsx-a11y": "3.0.2",
-    "eslint-plugin-react": "6.9.0",
-    "flow-bin": "0.38.0",
-    "lerna": "^2.0.0-rc.5"
+    "flow-bin": "^0.47.0",
+    "husky": "^0.13.4",
+    "lerna": "^2.0.0-rc.5",
+    "lerna-changelog": "^0.5.0",
+    "lint-staged": "^3.6.0",
+    "prettier": "^1.4.1"
   },
   "scripts": {
-    "lint": "node ./node_modules/.bin/eslint packages",
-    "flow": "node ./node_modules/.bin/flow check"
+    "lint": "eslint packages",
+    "flow": "flow check",
+    "format": "prettier --trailing-comma es5 --single-quote --write 'packages/*/*.js' 'packages/*/!(node_modules)/**/*.js'",
+    "changelog": "lerna-changelog",
+    "postinstall": "lerna bootstrap",
+    "precommit": "lint-staged"
+  },
+  "lint-staged": {
+    "*.js": [
+      "prettier --trailing-comma es5 --single-quote --write",
+      "git add"
+    ]
   }
 }

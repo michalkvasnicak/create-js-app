@@ -1,4 +1,16 @@
 {
   "lerna": "2.0.0-rc.5",
-  "version": "independent"
+  "version": "independent",
+  "changelog": {
+    "repo": "michalkvasnicak/create-js-app",
+    "labels": {
+      "tag: new feature": ":sparkles: New Feature",
+      "tag: breaking change": ":boom: Breaking Change",
+      "tag: bug fix": ":bug: Bug Fix",
+      "tag: enhancement": ":lipstick: Enhancement",
+      "tag: documentation": ":memo: Documentation",
+      "tag: internal": ":house: Internal"
+    },
+    "cacheDir": ".changelog"
+  },
 }
