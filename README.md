@@ -1,5 +1,7 @@
 # Create JS App [![CircleCI](https://circleci.com/gh/michalkvasnicak/create-js-app/tree/master.svg?style=svg&circle-token=ea51ecdfaed48e61f96b998f9731896b9ffe4776)](https://circleci.com/gh/michalkvasnicak/create-js-app/tree/master)
 
+**This project is not longer maintained. There is a replacement tool [spust](https://github.com/michalkvasnicak/spust) which is maintained and easier to use**
+
 Create any javascript application with no build configuration using
 your own or predefined project templates and build plugins.
 
